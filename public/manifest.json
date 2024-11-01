@@ -1,5 +1,5 @@
 {
-  "name": "My Side Panel Extension",
+  "name": "Web Discovery",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": ["sidePanel", "scripting", "tabs"],
@@ -8,7 +8,7 @@
     "service_worker": "service-worker.js"
   },
   "action": {
-    "default_title": "Open Side Panel"
+    "default_title": "Open Web Discovery"
   },
   "side_panel": {
     "default_path": "sidebar.html"
