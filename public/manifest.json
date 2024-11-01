@@ -2,7 +2,8 @@
   "name": "My Side Panel Extension",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["sidePanel"],
+  "permissions": ["sidePanel", "scripting", "tabs"],
+  "host_permissions": ["*://*/*"],
   "background": {
     "service_worker": "service-worker.js"
   },
