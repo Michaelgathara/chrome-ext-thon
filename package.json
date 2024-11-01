@@ -1,7 +1,7 @@
 {
-  "name": "web_discovery",
+  "name": "gemini_search",
   "version": "1.0.0",
-  "description": "Web Discovery",
+  "description": "Gemini Search",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",

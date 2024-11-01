@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { grabContent } from "../libs";
 import { testData } from "../data";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
+import { ApiService } from "../services/api-service";
 
 const SidePanel: React.FC = () => {
-  const [pageContent, setPageContent] = useState<string>("");
-
   const handleGrabContent = async () => {
     const content = await grabContent();
-    setPageContent(content);
+    console.log(content);
+    return content;
   };
-  console.log(testData);
-  console.log(SearchResult);
+
+  useEffect(() => {
+    const getPageContent = async () => {
+      const pageContent = await handleGrabContent();
+      ApiService.search(pageContent).then((data) => {
+        console.log(data);
+      });
+    };
+    getPageContent();
+  }, []);
 
   return (
     <div className={classes.sidePanel}>

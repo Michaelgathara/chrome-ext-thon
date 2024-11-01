@@ -5,6 +5,7 @@ import logging
 # PDM
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from api.chrome_ext_thon.models import Search
 
 
 LOG_LEVEL = os.getenv("LOG_LEVEL") or "INFO"
@@ -28,6 +29,7 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@app.post("/api/search")
+async def search(search: Search):
+    LOG.info(f"Searching for {search.page_content}")
+    return {"message": search.page_content}

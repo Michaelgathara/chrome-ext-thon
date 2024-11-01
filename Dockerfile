@@ -1,7 +1,7 @@
 # Build python dependencies
 FROM python:3.10.12-slim as pybuilder
 
-RUN apt update && apt install -y uvicorn
+RUN apt update && apt install -y uvicorn gcc g++
 RUN python -m pip --no-cache-dir install pdm
 RUN pdm config python.use_venv false
 
