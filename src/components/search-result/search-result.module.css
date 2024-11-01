@@ -1,0 +1,15 @@
+.searchResult {
+  background-color: var(--accent-background-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+a {
+  display: block;
+  max-width: 95%;
+  word-wrap: break-word;
+}
+
+.h3 {
+  margin-top: 0;
+}

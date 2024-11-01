@@ -1,0 +1,38 @@
+:root {
+  --background-color: #1f1f1f;
+  --accent-background-color: #504f4f41;
+  --link-color: #4285f4;
+}
+
+html {
+  background-color: var(--background-color);
+  color: white;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.separator {
+  border: none;
+  height: 1px;
+  background-color: lightgray;
+  margin: 0.625rem 0;
+}
+
+h3 {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+p {
+  margin-top: 0.5rem;
+}
+
+a {
+  color: var(--link-color);
+}

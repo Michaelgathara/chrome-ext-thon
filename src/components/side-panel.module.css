@@ -1,0 +1,13 @@
+.sidePanel {
+  background-color: var(--background-color);
+}
+
+.sidePanel h1 {
+  margin-bottom: 0;
+}
+
+.searchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
