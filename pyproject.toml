@@ -1,0 +1,18 @@
+[project]
+name = "chrome-ext-thon"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Jayden Pyles", email = "jpylesbusiness@gmail.com"},
+]
+dependencies = [
+    "fastapi>=0.115.4",
+    "uvicorn>=0.32.0",
+]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false

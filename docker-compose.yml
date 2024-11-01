@@ -1,0 +1,9 @@
+services:
+  chrome_ext_thon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "$PWD/api:/project/api"
+    ports:
+      - 8000:8000
