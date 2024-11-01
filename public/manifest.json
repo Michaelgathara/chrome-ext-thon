@@ -1,31 +1,15 @@
 {
-  "manifest_version": 3,
-
-  "name": "Chrome Extension TypeScript Starter",
-  "description": "Chrome Extension, TypeScript, Visual Studio Code",
+  "name": "My Side Panel Extension",
   "version": "1.0",
-
-  "options_ui": {
-    "page": "options.html"
-  },
-
-  "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
-
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["js/vendor.js", "js/content_script.js"]
-    }
-  ],
-
+  "manifest_version": 3,
+  "permissions": ["sidePanel"],
   "background": {
-    "service_worker": "js/background.js"
+    "service_worker": "service-worker.js"
   },
-
-  "permissions": ["storage", "scripting"],
-
-  "host_permissions": ["<all_urls>"]
+  "action": {
+    "default_title": "Open Side Panel"
+  },
+  "side_panel": {
+    "default_path": "sidebar.html"
+  }
 }
