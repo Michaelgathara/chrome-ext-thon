@@ -1,4 +1,4 @@
-import os, requests
+import os, requests, json
 import google.generativeai as genai
 from googlesearch import search # this is actually a wrapper for beautifulsoup and requests
 from configs import SUMMARIZE_SYSTEM_PROMPT, SEARCH_SYSTEM_PROMPT, SEARCH_API_KEY, CSE_ID, GEMINI_KEY
@@ -29,7 +29,17 @@ def google_search(query):
     this is a beautifulsoup implementation
     https://pypi.org/project/googlesearch-python/
     """
-    return search(query, num_results = 10, advanced=True)
+    response = search(query, num_results = 10, advanced = True)
+    results_list = []
+    for res in response:
+        results_list.append({
+            "url": res.url,
+            "title": res.title,
+            "description": res.description
+        })
+        
+    return json.dumps(results_list, indent = 4)
+    
 
 """
 Complicated setup with API keys and cse ids
