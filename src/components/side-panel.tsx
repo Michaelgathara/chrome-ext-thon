@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { grabContent } from "../libs";
+import { checkDomainAndPrompt, grabContent } from "../libs";
 import { testData } from "../data";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
@@ -14,9 +14,15 @@ const SidePanel: React.FC = () => {
 
   useEffect(() => {
     const getPageContent = async () => {
-      const pageContent = await handleGrabContent();
-      ApiService.search(pageContent).then((data) => {
-        console.log(data);
+      console.log("Checking domain and prompting");
+      checkDomainAndPrompt().then(async (shouldScan) => {
+        if (shouldScan) {
+          console.log("Scanning the page...");
+          const pageContent = await handleGrabContent();
+          ApiService.search(pageContent).then((data) => {
+            console.log(data);
+          });
+        }
       });
     };
     getPageContent();

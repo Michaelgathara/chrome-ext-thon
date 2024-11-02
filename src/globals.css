@@ -2,6 +2,8 @@
   --background-color: #1f1f1f;
   --accent-background-color: #504f4f41;
   --link-color: #4285f4;
+  --button-color: #4285f4;
+  --button-color-hover: #3367d6;
 }
 
 html {
@@ -39,4 +41,17 @@ h6 {
 
 a {
   color: var(--link-color);
+}
+
+button {
+  background-color: var(--link-color);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+
+  &:hover {
+    background-color: var(--button-color-hover);
+    cursor: pointer;
+  }
 }
