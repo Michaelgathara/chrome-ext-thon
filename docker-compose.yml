@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file: .env
     volumes:
       - "$PWD/api:/project/api"
     ports:

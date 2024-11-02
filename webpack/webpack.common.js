@@ -4,7 +4,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     index: './src/index.tsx',
-    'service-worker': './src/service-worker.ts'
+    "service-worker": "./src/service-worker.ts",
+    options: "./src/options.tsx"
   },
   output: {
     path: path.resolve('dist'),
@@ -37,13 +38,13 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /\.module\.css$/,
-        use: ['style-loader', 'css-loader'] 
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
   plugins: [
     new CopyWebpackPlugin({
       patterns: [{ from: 'public', to: '.' }]
-    })
+    }),
   ]
 };

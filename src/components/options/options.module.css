@@ -1,0 +1,9 @@
+.domainListLabel {
+  margin-bottom: 0.5rem !important;
+}
+
+.textArea .MuiInputBase-root {
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+}

@@ -4,7 +4,7 @@ import google.generativeai as genai
 from googlesearch import (
     search,
 )  # this is actually a wrapper for beautifulsoup and requests
-from configs import (
+from api.chrome_ext_thon.configs import (
     SUMMARIZE_SYSTEM_PROMPT,
     SEARCH_SYSTEM_PROMPT,
     SEARCH_API_KEY,
