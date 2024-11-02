@@ -29,9 +29,12 @@ def gemini(
     """
     model = genai.GenerativeModel(model_name)
     system = SUMMARIZE_SYSTEM_PROMPT if use_case == 1 else SEARCH_SYSTEM_PROMPT
-    response = model.generate_content(user_prompt, system_prompt=system)
-
-    return response
+    response = model.generate_content(
+        [
+            {"role": "user", "parts": [system + "\n\n" + user_prompt]}
+        ]
+    )
+    return response.text
 
 
 def google_search(query):
