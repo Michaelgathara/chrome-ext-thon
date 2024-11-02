@@ -33,8 +33,6 @@ const SidePanel: React.FC = () => {
       <h1>Recommended Pages</h1>
       <p>These recommended sites were found based on your current page.</p>
       <hr className={classes.separator} />
-      {/* <button onClick={handleGrabContent}>Grab Content</button>
-      <div>{pageContent}</div> */}
 
       <div className={classes.searchResults}>
         {testData.map((item) => (

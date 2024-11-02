@@ -47,7 +47,6 @@ export const checkDomainAndPrompt = async (): Promise<boolean> => {
           ) as HTMLButtonElement;
 
           yesButton.onclick = () => {
-            // Add the domain to the whitelist and proceed
             chrome.storage.sync.set(
               { domainList: [...domainList, currentDomain] },
               () => {

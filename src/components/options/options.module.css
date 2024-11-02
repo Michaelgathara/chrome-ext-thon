@@ -7,3 +7,11 @@
   border: 1px solid white;
   border-radius: 4px;
 }
+
+.domainList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  color: white !important;
+}
