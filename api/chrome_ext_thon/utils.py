@@ -39,9 +39,7 @@ async def gemini(
         model = genai.GenerativeModel(model_name)
         system = SUMMARIZE_SYSTEM_PROMPT if use_case == 1 else SEARCH_SYSTEM_PROMPT
         response = model.generate_content(
-            [
-                {"role": "user", "parts": [system + "\n\n" + user_prompt]}
-            ]
+            [{"role": "user", "parts": [system + "\n\n" + user_prompt]}]
         )
         return response.text
     except Exception as e:
@@ -55,10 +53,11 @@ async def google_search(query):
     https://pypi.org/project/googlesearch-python/
     """
     response = search(query, num_results=10, advanced=True)
+    LOG.info(f"Google search response: {response}")
     results_list = []
     for res in response:
         results_list.append(
             {"url": res.url, "title": res.title, "description": res.description}
         )
 
-    return json.dumps(results_list, indent=4)
+    return results_list

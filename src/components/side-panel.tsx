@@ -4,12 +4,16 @@ import { testData } from "../data";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
 import { ApiService } from "../services/api-service";
+import { ScanPopup } from "./scan-popup";
 
 const SidePanel: React.FC = () => {
   const [currentURL, setCurrentURL] = useState<string>();
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [shouldScan, setShouldScan] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentDomain, setCurrentDomain] = useState<string>("");
+  const [domainList, setDomainList] = useState<string[]>([]);
 
   const handleGrabContent = async () => {
     const content = await grabContent();
@@ -17,9 +21,24 @@ const SidePanel: React.FC = () => {
     return content;
   };
 
+  const handleConfirm = () => {
+    setShouldScan(true);
+  };
+
+  const handleCancel = () => {
+    setShouldScan(false);
+  };
+
   const runScan = async (url: string) => {
     setCurrentURL(url);
-    const shouldScan = await checkDomainAndPrompt();
+    const { currentDomain, domainList, shouldScan, showPopup } =
+      await checkDomainAndPrompt();
+
+    setShouldScan(shouldScan);
+    setShowPopup(showPopup);
+    setDomainList(domainList);
+    setCurrentDomain(currentDomain);
+
     if (shouldScan) {
       setIsLoading(true);
       console.log("Scanning the page...");
@@ -30,11 +49,11 @@ const SidePanel: React.FC = () => {
           let parsedData;
 
           // Parse the data
-          if (typeof data === 'string') {
+          if (typeof data === "string") {
             try {
               parsedData = JSON.parse(data);
             } catch (error) {
-              console.error('Error parsing data:', error);
+              console.error("Error parsing data:", error);
               parsedData = null;
             }
           } else {
@@ -50,13 +69,13 @@ const SidePanel: React.FC = () => {
           } else if (parsedData && Array.isArray(parsedData.searchResults)) {
             results = parsedData.searchResults;
           } else {
-            console.warn('No valid search results found in the parsed data.');
+            console.warn("No valid search results found in the parsed data.");
           }
 
           setSearchResults(results);
         })
         .catch((error) => {
-          console.error('Error processing search results:', error);
+          console.error("Error processing search results:", error);
           setSearchResults([]);
         })
         .finally(() => {
@@ -64,7 +83,6 @@ const SidePanel: React.FC = () => {
         });
     }
   };
-
 
   useEffect(() => {
     // Run once when the sidebar opens
@@ -106,7 +124,7 @@ const SidePanel: React.FC = () => {
       chrome.webNavigation.onCompleted.removeListener(handlePageLoad);
       chrome.tabs.onActivated.removeListener(handleTabChange);
     };
-  }, []);
+  }, [shouldScan]);
 
   return (
     <div className={classes.sidePanel}>
@@ -129,6 +147,16 @@ const SidePanel: React.FC = () => {
           <p>No recommendations found.</p>
         )}
       </div>
+      {showPopup && (
+        <ScanPopup
+          currentDomain={currentDomain}
+          domainList={domainList}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          setShowPopup={setShowPopup}
+          setShouldScan={setShouldScan}
+        />
+      )}
     </div>
   );
 };
