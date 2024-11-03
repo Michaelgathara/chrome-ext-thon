@@ -2,7 +2,7 @@
   "name": "Gemini Search",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["sidePanel", "scripting", "tabs", "storage"],
+  "permissions": ["sidePanel", "scripting", "tabs", "storage", "webNavigation"],
   "host_permissions": ["*://*/*"],
   "background": {
     "service_worker": "service-worker.js"

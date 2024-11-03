@@ -5,6 +5,17 @@ export const checkDomainAndPrompt = async (): Promise<boolean> => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const currentDomain = new URL(tabs[0].url || "").hostname; // Extract the hostname from the URL
       console.log("Current domain:", currentDomain);
+      const currentUrl = tabs[0].url || "";
+
+      // Check if the URL is one of Chrome's internal pages
+      if (
+        currentUrl.startsWith("chrome://") ||
+        currentUrl.startsWith("chrome-extension://")
+      ) {
+        console.log("Special Chrome URL detected, skipping scan");
+        resolve(false);
+        return;
+      }
 
       // Retrieve the whitelist from Chrome's extension storage
       chrome.storage.sync.get("domainList", (result) => {
