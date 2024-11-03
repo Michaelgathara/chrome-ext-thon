@@ -7,7 +7,6 @@ import { ApiService } from "../services/api-service";
 import { ScanPopup } from "./scan-popup";
 
 const SidePanel: React.FC = () => {
-  const [currentURL, setCurrentURL] = useState<string>();
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldScan, setShouldScan] = useState(false);
@@ -23,14 +22,14 @@ const SidePanel: React.FC = () => {
 
   const handleConfirm = () => {
     setShouldScan(true);
+    runScan();
   };
 
   const handleCancel = () => {
     setShouldScan(false);
   };
 
-  const runScan = async (url: string) => {
-    setCurrentURL(url);
+  const runScan = async () => {
     const { currentDomain, domainList, shouldScan, showPopup } =
       await checkDomainAndPrompt();
 
@@ -45,33 +44,7 @@ const SidePanel: React.FC = () => {
       const pageContent = await handleGrabContent();
       ApiService.search(pageContent)
         .then((data) => {
-          console.log("Raw data: ", data);
-          let parsedData;
-
-          // Parse the data
-          if (typeof data === "string") {
-            try {
-              parsedData = JSON.parse(data);
-            } catch (error) {
-              console.error("Error parsing data:", error);
-              parsedData = null;
-            }
-          } else {
-            parsedData = data;
-          }
-
-          console.log("Parsed data: ", parsedData);
-
-          let results = [];
-
-          if (Array.isArray(parsedData)) {
-            results = parsedData;
-          } else if (parsedData && Array.isArray(parsedData.searchResults)) {
-            results = parsedData.searchResults;
-          } else {
-            console.warn("No valid search results found in the parsed data.");
-          }
-
+          const results = data.searchResults;
           setSearchResults(results);
         })
         .catch((error) => {
@@ -89,16 +62,17 @@ const SidePanel: React.FC = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const currentTab = tabs[0];
       if (currentTab?.url) {
-        runScan(currentTab.url);
+        runScan();
       }
     });
 
     // Listen for tab changes
     const handleTabChange = async (activeInfo: chrome.tabs.TabActiveInfo) => {
       console.log("running scan on tab change");
+      setSearchResults([]);
       chrome.tabs.get(activeInfo.tabId, (tab) => {
         if (tab.url) {
-          runScan(tab.url);
+          runScan();
         }
       });
     };
@@ -107,11 +81,11 @@ const SidePanel: React.FC = () => {
     const handlePageLoad = (
       details: chrome.webNavigation.WebNavigationFramedCallbackDetails
     ) => {
-      console.log("running scan on page load");
+      setSearchResults([]);
       if (details.frameId === 0) {
         chrome.tabs.get(details.tabId, (tab) => {
           if (tab.url) {
-            runScan(tab.url);
+            runScan();
           }
         });
       }
@@ -124,16 +98,20 @@ const SidePanel: React.FC = () => {
       chrome.webNavigation.onCompleted.removeListener(handlePageLoad);
       chrome.tabs.onActivated.removeListener(handleTabChange);
     };
-  }, [shouldScan]);
+  }, []);
 
-  return (
-    <div className={classes.sidePanel}>
-      <h1>Recommended Pages</h1>
-      <p>These recommended sites were found based on your current page.</p>
-      <hr className={classes.separator} />
+  const SidePanelContent = () => {
+    if (showPopup) {
+      return null;
+    }
+
+    return (
       <div className={classes.searchResults}>
         {isLoading ? (
-          <p>Loading recommendations...</p>
+          <div className={classes.loaderContainer}>
+            <p>Loading recommendations...</p>
+            <div className={classes.loader}></div>
+          </div>
         ) : searchResults?.length > 0 ? (
           searchResults.map((result, index) => (
             <SearchResult
@@ -147,6 +125,28 @@ const SidePanel: React.FC = () => {
           <p>No recommendations found.</p>
         )}
       </div>
+    );
+  };
+
+  const SidePanelHeader = () => {
+    return searchResults?.length > 0 ? (
+      <>
+        <h1>Recommended Pages</h1>
+        <p>These recommended sites were found based on your current page.</p>
+      </>
+    ) : (
+      <>
+        <h1>Gemini Search</h1>
+        <p>Visit a website or allow access to site to get started.</p>
+      </>
+    );
+  };
+
+  return (
+    <div className={classes.sidePanel}>
+      <SidePanelHeader />
+      <hr className={classes.separator} />
+      <SidePanelContent />
       {showPopup && (
         <ScanPopup
           currentDomain={currentDomain}

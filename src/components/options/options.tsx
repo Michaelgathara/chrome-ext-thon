@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
   FormControlLabel,
-  Checkbox,
   Button,
   Switch,
   Box,
@@ -16,14 +15,22 @@ export const Options: React.FC = () => {
   const [domainList, setDomainList] = useState<string[]>([]);
   const [isWhitelist, setIsWhitelist] = useState<boolean>(true);
 
-  chrome.storage.sync.get("domainList", (result) => {
-    setDomainList(result.domainList || []);
-  });
+  useEffect(() => {
+    chrome.storage.sync.get("domainList", (result) => {
+      setDomainList(result.domainList || []);
+    });
+  }, []);
 
   const handleSave = () => {
     chrome.storage.sync.set({ collectData, domainList, isWhitelist }, () => {
       console.log("Settings saved");
     });
+  };
+
+  const handleDeleteDomain = (domain: string) => {
+    const updatedList = domainList.filter((d) => d !== domain);
+    setDomainList(updatedList);
+    chrome.storage.sync.set({ domainList: updatedList });
   };
 
   return (
@@ -36,7 +43,9 @@ export const Options: React.FC = () => {
         control={
           <Switch
             checked={collectData}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCollectData(e.target.checked)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCollectData(e.target.checked)
+            }
           />
         }
         label="Always collect data on page load"
@@ -44,62 +53,25 @@ export const Options: React.FC = () => {
 
       {!collectData && (
         <Box sx={{ mt: 2 }}>
-          <Typography className={classes.domainListLabel} variant="h6">
-            Domain List
-          </Typography>
-          <textarea
-            value={domainList.join("\n")}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDomainList(e.target.value.split("\n"))}
-            placeholder="Enter one domain per line"
-            rows={4}
-            style={{
-              width: "100%",
-              color: "white",
-              backgroundColor: "transparent",
-              border: "1px solid white",
-              borderRadius: "4px",
-              padding: "8px",
-              outline: "none",
-            }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isWhitelist}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIsWhitelist(e.target.checked)}
+          <Typography variant="h6">Domain List</Typography>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
+            {domainList.map((domain) => (
+              <Chip
+                key={domain}
+                label={domain}
+                onDelete={() => handleDeleteDomain(domain)}
+                color="primary"
               />
-            }
-            label="Whitelist Mode (uncheck for Blacklist Mode)"
-          />
+            ))}
+          </Box>
         </Box>
       )}
 
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mt: 3 }}
-        onClick={handleSave}
-      >
-        Save
-      </Button>
-
-      <Container sx={{ mt: 3, paddingLeft: "0 !important" }}>
-        <Typography sx={{ marginBottom: "0.5rem" }}>
-          Currently Scanned Domains
-        </Typography>
-        <div className={classes.domainList}>
-          {domainList.map((domain) => (
-            <Chip
-              label={domain}
-              sx={{
-                width: "fit-content",
-                color: "white",
-                backgroundColor: "var(--link-color)",
-              }}
-            />
-          ))}
-        </div>
-      </Container>
+      <Box sx={{ mt: 4 }}>
+        <Button variant="contained" color="primary" onClick={handleSave}>
+          Save Settings
+        </Button>
+      </Box>
     </Container>
   );
 };

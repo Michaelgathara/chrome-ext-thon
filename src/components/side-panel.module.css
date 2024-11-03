@@ -11,3 +11,35 @@
   flex-direction: column;
   gap: 0.25rem;
 }
+
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loaderContainer p {
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.loader {
+  width: 120px;
+  height: 20px;
+  background: linear-gradient(90deg, #0000, var(--google-yellow)) left -50px top
+    0/50px 20px no-repeat var(--google-blue);
+  animation: l2 1s infinite linear;
+  border-radius: 10px;
+}
+@keyframes l2 {
+  100% {
+    background-position: right -50px top 0;
+  }
+}

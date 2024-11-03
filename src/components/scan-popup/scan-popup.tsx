@@ -47,7 +47,7 @@ export const ScanPopup = ({
       }}
     >
       <p style={{ margin: 0 }}>
-        Would you like to scan this page for the domain{" "}
+        Would you like to allow scanning of the domain{" "}
         <strong>{currentDomain}</strong>?
       </p>
       <div

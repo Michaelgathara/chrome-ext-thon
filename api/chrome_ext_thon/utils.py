@@ -38,6 +38,7 @@ async def gemini(
     try:
         model = genai.GenerativeModel(model_name)
         system = SUMMARIZE_SYSTEM_PROMPT if use_case == 1 else SEARCH_SYSTEM_PROMPT
+        LOG.info(f"Length of Gemini system prompt: {len(user_prompt)}")
         response = model.generate_content(
             [{"role": "user", "parts": [system + "\n\n" + user_prompt]}]
         )
