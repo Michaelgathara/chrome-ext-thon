@@ -36,7 +36,7 @@ export const Options: React.FC = () => {
         control={
           <Switch
             checked={collectData}
-            onChange={(e) => setCollectData(e.target.checked)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCollectData(e.target.checked)}
           />
         }
         label="Always collect data on page load"
@@ -49,7 +49,7 @@ export const Options: React.FC = () => {
           </Typography>
           <textarea
             value={domainList.join("\n")}
-            onChange={(e) => setDomainList(e.target.value.split("\n"))}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDomainList(e.target.value.split("\n"))}
             placeholder="Enter one domain per line"
             rows={4}
             style={{
@@ -66,7 +66,7 @@ export const Options: React.FC = () => {
             control={
               <Checkbox
                 checked={isWhitelist}
-                onChange={(e) => setIsWhitelist(e.target.checked)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIsWhitelist(e.target.checked)}
               />
             }
             label="Whitelist Mode (uncheck for Blacklist Mode)"

@@ -8,5 +8,6 @@
             ],
             "url": "http://json.schemastore.org/chrome-manifest"
         }
-    ]
+    ],
+    "makefile.configureOnOpen": true
 }

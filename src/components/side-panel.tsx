@@ -7,6 +7,9 @@ import { ApiService } from "../services/api-service";
 
 const SidePanel: React.FC = () => {
   const [currentURL, setCurrentURL] = useState<string>();
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleGrabContent = async () => {
     const content = await grabContent();
@@ -18,13 +21,50 @@ const SidePanel: React.FC = () => {
     setCurrentURL(url);
     const shouldScan = await checkDomainAndPrompt();
     if (shouldScan) {
+      setIsLoading(true);
       console.log("Scanning the page...");
       const pageContent = await handleGrabContent();
-      ApiService.search(pageContent).then((data) => {
-        console.log(data);
-      });
+      ApiService.search(pageContent)
+        .then((data) => {
+          console.log("Raw data: ", data);
+          let parsedData;
+
+          // Parse the data
+          if (typeof data === 'string') {
+            try {
+              parsedData = JSON.parse(data);
+            } catch (error) {
+              console.error('Error parsing data:', error);
+              parsedData = null;
+            }
+          } else {
+            parsedData = data;
+          }
+
+          console.log("Parsed data: ", parsedData);
+
+          let results = [];
+
+          if (Array.isArray(parsedData)) {
+            results = parsedData;
+          } else if (parsedData && Array.isArray(parsedData.searchResults)) {
+            results = parsedData.searchResults;
+          } else {
+            console.warn('No valid search results found in the parsed data.');
+          }
+
+          setSearchResults(results);
+        })
+        .catch((error) => {
+          console.error('Error processing search results:', error);
+          setSearchResults([]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
+
 
   useEffect(() => {
     // Run once when the sidebar opens
@@ -74,14 +114,20 @@ const SidePanel: React.FC = () => {
       <p>These recommended sites were found based on your current page.</p>
       <hr className={classes.separator} />
       <div className={classes.searchResults}>
-        {testData.map((item) => (
-          <SearchResult
-            key={item.url}
-            url={item.url}
-            title={item.title}
-            description={item.description}
-          />
-        ))}
+        {isLoading ? (
+          <p>Loading recommendations...</p>
+        ) : searchResults?.length > 0 ? (
+          searchResults.map((result, index) => (
+            <SearchResult
+              key={index}
+              url={result.url}
+              title={result.title}
+              description={result.description}
+            />
+          ))
+        ) : (
+          <p>No recommendations found.</p>
+        )}
       </div>
     </div>
   );

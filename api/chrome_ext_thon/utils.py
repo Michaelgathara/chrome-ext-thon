@@ -1,5 +1,5 @@
 # pyright: reportUnknownMemberType=false
-import os, requests, json
+import os, requests, logging, json
 import google.generativeai as genai
 from googlesearch import (
     search,
@@ -7,15 +7,23 @@ from googlesearch import (
 from api.chrome_ext_thon.configs import (
     SUMMARIZE_SYSTEM_PROMPT,
     SEARCH_SYSTEM_PROMPT,
-    SEARCH_API_KEY,
-    CSE_ID,
     GEMINI_KEY,
 )
+
+LOG_LEVEL = os.getenv("LOG_LEVEL") or "INFO"
+
+logging.basicConfig(
+    level=LOG_LEVEL,
+    format="%(levelname)s:     %(asctime)s - %(name)s - %(message)s",
+    handlers=[logging.StreamHandler()],
+)
+
+LOG = logging.getLogger(__name__)
 
 genai.configure(api_key=GEMINI_KEY)
 
 
-def gemini(
+async def gemini(
     user_prompt: str, use_case: int = 1, model_name: str = "gemini-1.5-flash-latest"
 ):
     """
@@ -27,17 +35,21 @@ def gemini(
     Text Embedding Model: text-embedding-004
     AQA (Answer Quality Assessment): aqa
     """
-    model = genai.GenerativeModel(model_name)
-    system = SUMMARIZE_SYSTEM_PROMPT if use_case == 1 else SEARCH_SYSTEM_PROMPT
-    response = model.generate_content(
-        [
-            {"role": "user", "parts": [system + "\n\n" + user_prompt]}
-        ]
-    )
-    return response.text
+    try:
+        model = genai.GenerativeModel(model_name)
+        system = SUMMARIZE_SYSTEM_PROMPT if use_case == 1 else SEARCH_SYSTEM_PROMPT
+        response = model.generate_content(
+            [
+                {"role": "user", "parts": [system + "\n\n" + user_prompt]}
+            ]
+        )
+        return response.text
+    except Exception as e:
+        LOG.error(f"Error in Gemini processing: {e}")
+        return user_prompt
 
 
-def google_search(query):
+async def google_search(query):
     """
     this is a beautifulsoup implementation
     https://pypi.org/project/googlesearch-python/
@@ -50,23 +62,3 @@ def google_search(query):
         )
 
     return json.dumps(results_list, indent=4)
-
-
-"""
-Complicated setup with API keys and cse ids
-"""
-# def google_search(query, **kwargs):
-#     url = "https://www.googleapis.com/customsearch/v1"
-#     params = {
-#         'q': query,
-#         'key': SEARCH_API_KEY,
-#         'cx': CSE_ID,
-#     }
-#     params.update(kwargs)
-#     response = requests.get(url, params = params)
-#     return response.json()
-
-"""
-results = google_search('OpenAI')
-for item in results.get('items', []):
-    print(item['title'], item['link'])"""

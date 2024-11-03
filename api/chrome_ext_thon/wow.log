@@ -1,0 +1,192 @@
+index.js:2 Checking domain and prompting...
+index.js:2 Current domain: aws.amazon.com
+index.js:2 Domain list: Array(3)
+index.js:2 Domain is not in the whitelist, prompting user
+index.js:2 Scanning the page...
+index.js:2 Skip to main content
+Click here to return to Amazon Web Services homepage
+About AWS
+Contact Us
+Support   
+English   
+My Account   
+Sign In 
+Create an AWS Account
+ 
+Amazon Q Products Solutions Pricing Documentation Learn Partner Network AWS Marketplace Customer Enablement Events Explore More
+What is Cloud Computing? Cloud Computing Concepts Hub Generative AI
+What is GPT?
+
+
+Create an AWS Account
+
+Explore AWS Skill Builder | Access hundreds of free digital courses, wherever, whenever you want »
+
+Explore Generative AI Services
+Build, deploy, and run generative AI applications on AWS
+Check out Generative AI on AWS
+Innovate faster with the most comprehensive set of Generative AI services
+Browse Generative AI Trainings
+Get started on generative AI training with content built by AWS experts
+Read Generative AI Blogs
+Get the latest AWS generative AI product news and best practices
+What is GPT?
+Why is GPT important?
+What are the use cases of GPT?
+How does GPT work?
+How was GPT-3 trained?
+What are examples of some applications that use GPT?
+How can AWS help you run large language models like GPT-3?
+What is GPT?
+
+Generative Pre-trained Transformers, commonly known as GPT, are a family of neural network models that uses the transformer architecture and is a key advancement in artificial intelligence (AI) powering generative AI applications such as ChatGPT. GPT models give applications the ability to create human-like text and content (images, music, and more), and answer questions in a conversational manner. Organizations across industries are using GPT models and generative AI for Q&A bots, text summarization, content generation, and search.
+
+Why is GPT important?
+
+The GPT models, and in particular, the transformer architecture that they use, represent a significant AI research breakthrough. The rise of GPT models is an inflection point in the widespread adoption of ML because the technology can be used now to automate and improve a wide set of tasks ranging from language translation and document summarization to writing blog posts, building websites, designing visuals, making animations, writing code, ]researching complex topics, and even composing poems. The value of these models lies in their speed and the scale at which they can operate. For example, where you might need several hours to research, write, and edit an article on nuclear physics, a GPT model can produce one in seconds. GPT models have sparked the research in AI towards achieving artificial general intelligence, which means machines can help organizations reach new levels of productivity and reinvent their applications and customer experiences.
+
+What are the use cases of GPT?
+
+The GPT models are general-purpose language models that can perform a broad range of tasks from creating original content to write code, summarizing text, and extracting data from documents.
+
+Here are some ways you can use the GPT models:
+
+Create social media content
+
+Digital marketers, assisted by artificial intelligence (AI), can create content for their social media campaigns. For example, marketers can prompt a GPT model to produce an explainer video script. GPT-powered image processing software can create memes, videos, marketing copy, and other content from text instructions.
+
+Convert text to different styles
+
+GPT models generate text in casual, humorous, professional, and other styles. The models allow business professionals to rewrite a particular text in a different form. For example, lawyers can use a GPT model to turn legal copies into simple explanatory notes. 
+
+Write and learn code
+
+As language models, the GPT models can understand and write computer code in different programming languages. The models can help learners by explaining computer programs to them in everyday language. Also, experienced developers can use GPT tools to autosuggest relevant code snippets.
+
+Analyze data
+
+The GPT model can help business analysts efficiently compile large volumes of data. The language models search for the required data and calculate and display the results in a data table or spreadsheet. Some applications can plot the results on a chart or create comprehensive reports. 
+
+Produce learning materials
+
+Educators can use GPT-based software to generate learning materials such as quizzes and tutorials. Similarly, they can use GPT models to evaluate the answers.
+
+Build interactive voice assistants
+
+The GPT models allow you to build intelligent interactive voice assistants. While many chatbots only respond to basic verbal prompts, the GPT models can produce chatbots with conversational AI capabilities. In addition, these chatbots can converse verbally like humans when paired with other AI technologies. 
+
+How does GPT work?
+
+Though it’s accurate to describe the GPT models as artificial intelligence (AI), this is a broad description. More specifically, the GPT models are neural network-based language prediction models built on the Transformer architecture. They analyze natural language qu
+index.js:2 {searchResults: '[\n    {\n        "url": "https://aws.amazon.com/bed… models (FMs) from leading AI companies."\n    }\n]'}searchResults: "[\n    {\n        \"url\": \"https://aws.amazon.com/bedrock/\",\n        \"title\": \"Amazon Bedrock - Generative AI\",\n        \"description\": \"Amazon Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies.\"\n    },\n    {\n        \"url\": \"https://aws.amazon.com/bedrock/pricing/\",\n        \"title\": \"Amazon Bedrock Pricing - Generative AI\",\n        \"description\": \"With Amazon Bedrock, you will be charged for model inference and customization. You have a choice of two pricing plans for inference.\"\n    },\n    {\n        \"url\": \"https://www.reddit.com/r/aws/comments/1aoyt0y/any_feedback_on_amazon_q_anyone_using_it_for/\",\n        \"title\": \"Any feedback on Amazon Q? anyone using it for actual ...\",\n        \"description\": \"My first impression is: it is literally useless. The only thing I could do with it is ask about documentation instead of browsing the docs.\"\n    },\n    {\n        \"url\": \"https://www.anthropic.com/news/claude-3-5-sonnet\",\n        \"title\": \"Introducing Claude 3.5 Sonnet\",\n        \"description\": \"Jun 20, 2024 \\u2014 Claude 3.5 Sonnet raises the industry bar for intelligence, outperforming competitor models and Claude 3 Opus on a wide range of evaluations.\"\n    },\n    {\n        \"url\": \"https://www.reddit.com/r/AZURE/comments/18ryal3/is_azure_actually_better_than_aws/\",\n        \"title\": \"Is Azure actually better than AWS?\",\n        \"description\": \"They're both the same. Equally good, equally bad. Details on one might feel better or worse, but IMO no meaningful difference.\"\n    },\n    {\n        \"url\": \"https://www.amazon.science/news-and-features/amazon-bedrock-offers-access-to-multiple-generative-ai-models\",\n        \"title\": \"Amazon Bedrock offers access to multiple generative AI ...\",\n        \"description\": \"Amazon Bedrock offers access to multiple generative AI models. AWS service enables machine learning innovation on a robust foundation. By Staff writer. August\\u00a0...\"\n    },\n    {\n        \"url\": \"https://mrmaheshrajput.medium.com/how-to-productionize-large-language-models-llms-060a4cb1a169\",\n        \"title\": \"How to Productionize Large Language Models (LLMs) - Mahesh\",\n        \"description\": \"Understand LLMOps, architectural patterns, how to evaluate, fine tune & deploy HuggingFace generative AI models locally or on cloud.\"\n    },\n    {\n        \"url\": \"https://mlflow.org/docs/latest/llms/gateway/index.html\",\n        \"title\": \"MLflow AI Gateway (Experimental)\",\n        \"description\": \"The MLflow AI Gateway service is a powerful tool designed to streamline the usage and management of various large language model (LLM) providers.\"\n    },\n    {\n        \"url\": \"https://aws.amazon.com/blogs/machine-learning/create-a-generative-ai-powered-custom-google-chat-application-using-amazon-bedrock/\",\n        \"title\": \"Create a generative AI\\u2013powered custom Google Chat ...\",\n        \"description\": \"3 days ago \\u2014 AWS offers powerful generative AI services, including Amazon Bedrock, which allows organizations to create tailored use cases such as AI chat-\\u00a0...\"\n    },\n    {\n        \"url\": \"https://python.langchain.com/docs/integrations/llms/bedrock/\",\n        \"title\": \"Bedrock\",\n        \"description\": \"Amazon Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies.\"\n    }\n]"[[Prototype]]: Object
+index.js:2 [
+    {
+        "url": "https://aws.amazon.com/bedrock/",
+        "title": "Amazon Bedrock - Generative AI",
+        "description": "Amazon Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies."
+    },
+    {
+        "url": "https://aws.amazon.com/bedrock/pricing/",
+        "title": "Amazon Bedrock Pricing - Generative AI",
+        "description": "With Amazon Bedrock, you will be charged for model inference and customization. You have a choice of two pricing plans for inference."
+    },
+    {
+        "url": "https://www.reddit.com/r/aws/comments/1aoyt0y/any_feedback_on_amazon_q_anyone_using_it_for/",
+        "title": "Any feedback on Amazon Q? anyone using it for actual ...",
+        "description": "My first impression is: it is literally useless. The only thing I could do with it is ask about documentation instead of browsing the docs."
+    },
+    {
+        "url": "https://www.anthropic.com/news/claude-3-5-sonnet",
+        "title": "Introducing Claude 3.5 Sonnet",
+        "description": "Jun 20, 2024 \u2014 Claude 3.5 Sonnet raises the industry bar for intelligence, outperforming competitor models and Claude 3 Opus on a wide range of evaluations."
+    },
+    {
+        "url": "https://www.reddit.com/r/AZURE/comments/18ryal3/is_azure_actually_better_than_aws/",
+        "title": "Is Azure actually better than AWS?",
+        "description": "They're both the same. Equally good, equally bad. Details on one might feel better or worse, but IMO no meaningful difference."
+    },
+    {
+        "url": "https://www.amazon.science/news-and-features/amazon-bedrock-offers-access-to-multiple-generative-ai-models",
+        "title": "Amazon Bedrock offers access to multiple generative AI ...",
+        "description": "Amazon Bedrock offers access to multiple generative AI models. AWS service enables machine learning innovation on a robust foundation. By Staff writer. August\u00a0..."
+    },
+    {
+        "url": "https://mrmaheshrajput.medium.com/how-to-productionize-large-language-models-llms-060a4cb1a169",
+        "title": "How to Productionize Large Language Models (LLMs) - Mahesh",
+        "description": "Understand LLMOps, architectural patterns, how to evaluate, fine tune & deploy HuggingFace generative AI models locally or on cloud."
+    },
+    {
+        "url": "https://mlflow.org/docs/latest/llms/gateway/index.html",
+        "title": "MLflow AI Gateway (Experimental)",
+        "description": "The MLflow AI Gateway service is a powerful tool designed to streamline the usage and management of various large language model (LLM) providers."
+    },
+    {
+        "url": "https://aws.amazon.com/blogs/machine-learning/create-a-generative-ai-powered-custom-google-chat-application-using-amazon-bedrock/",
+        "title": "Create a generative AI\u2013powered custom Google Chat ...",
+        "description": "3 days ago \u2014 AWS offers powerful generative AI services, including Amazon Bedrock, which allows organizations to create tailored use cases such as AI chat-\u00a0..."
+    },
+    {
+        "url": "https://python.langchain.com/docs/integrations/llms/bedrock/",
+        "title": "Bedrock",
+        "description": "Amazon Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies."
+    }
+]
+index.js:2 TypeError: t.map is not a function
+    at index.js:2:149932
+    at Eo (index.js:2:65463)
+    at Pu (index.js:2:77044)
+    at Ei (index.js:2:122814)
+    at ks (index.js:2:111199)
+    at ys (index.js:2:111127)
+    at gs (index.js:2:110990)
+    at ss (index.js:2:108152)
+    at $l (index.js:2:49330)
+    at rs (index.js:2:105284)
+du @ index.js:2
+t.callback @ index.js:2
+Ua @ index.js:2
+wi @ index.js:2
+ki @ index.js:2
+bi @ index.js:2
+(anonymous) @ index.js:2
+Ss @ index.js:2
+ss @ index.js:2
+$l @ index.js:2
+rs @ index.js:2
+tu @ index.js:2
+(anonymous) @ index.js:2
+Promise.finally
+(anonymous) @ index.js:2
+o @ index.js:2
+Promise.then
+i @ index.js:2
+o @ index.js:2
+index.js:2 Uncaught (in promise) TypeError: t.map is not a function
+    at index.js:2:149932
+    at Eo (index.js:2:65463)
+    at Pu (index.js:2:77044)
+    at Ei (index.js:2:122814)
+    at ks (index.js:2:111199)
+    at ys (index.js:2:111127)
+    at gs (index.js:2:110990)
+    at ss (index.js:2:108152)
+    at $l (index.js:2:49330)
+    at rs (index.js:2:105284)
+(anonymous) @ index.js:2
+Eo @ index.js:2
+Pu @ index.js:2
+Ei @ index.js:2
+ks @ index.js:2
+ys @ index.js:2
+gs @ index.js:2
+ss @ index.js:2
+$l @ index.js:2
+rs @ index.js:2
+tu @ index.js:2
+(anonymous) @ index.js:2
+Promise.finally
+(anonymous) @ index.js:2
+o @ index.js:2
+Promise.then
+i @ index.js:2
+o @ index.js:2
