@@ -19,7 +19,7 @@ export const SearchResult = ({
     <div className={`${classes.searchResult} ${highlighted ? classes.highlighted : ""}`}>
       <h3>{title}</h3>
       <p>{description}</p>
-      <a href={url}>{url}</a>
+      <a target="_blank" rel="noreferrer" href={url}>{url}</a>
     </div>
   );
 };

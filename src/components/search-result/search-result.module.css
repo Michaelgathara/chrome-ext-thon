@@ -4,16 +4,36 @@
   padding: 0.5rem;
 }
 
+/* TODO: Figure out rounded, animated, and gradient border - all around the search result */
 .highlighted {
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  border-image: linear-gradient(
-    60deg,
-    #d93025, 
-    #f9ab00, 
-    #1e8e3e, 
-    #d93025  
-  ) 1;
+  position: relative;
+  border-radius: 0.5rem;
+}
+
+.highlighted::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(60deg, #d93025, #f9ab00, #1e8e3e, #d93025);
+  border-radius: 0.6rem;
+  z-index: -1;
+  animation: gradientBorder 3s linear infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 a {
