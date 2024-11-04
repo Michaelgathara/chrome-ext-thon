@@ -5,9 +5,15 @@
 }
 
 .highlighted {
-  border: 2px solid #8e29c2; /* Google AI-like purple */
-  box-shadow: 0 0 8px rgba(142, 41, 194, 0.2);
-  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-image: linear-gradient(
+    60deg,
+    #d93025, 
+    #f9ab00, 
+    #1e8e3e, 
+    #d93025  
+  ) 1;
 }
 
 a {
