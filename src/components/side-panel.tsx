@@ -105,6 +105,7 @@ const SidePanel: React.FC = () => {
       return null;
     }
 
+    // TODO: Highlight the first two results in like a Google AI looking color border
     return (
       <div className={classes.searchResults}>
         {isLoading ? (
@@ -119,6 +120,7 @@ const SidePanel: React.FC = () => {
               url={result.url}
               title={result.title}
               description={result.description}
+              highlighted={index < 2}
             />
           ))
         ) : (

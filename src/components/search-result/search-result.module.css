@@ -4,6 +4,12 @@
   padding: 0.5rem;
 }
 
+.highlighted {
+  border: 2px solid #8e29c2; /* Google AI-like purple */
+  box-shadow: 0 0 8px rgba(142, 41, 194, 0.2);
+  border-radius: 8px;
+}
+
 a {
   display: block;
   max-width: 95%;
