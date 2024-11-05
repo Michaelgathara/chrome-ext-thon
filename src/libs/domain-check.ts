@@ -3,6 +3,7 @@ export const checkDomainAndPrompt = async (): Promise<{
   domainList: string[];
   shouldScan: boolean;
   showPopup: boolean;
+  currentUrl: string;
 }> => {
   return new Promise((resolve) => {
     console.log("Checking domain and prompting...");
@@ -23,6 +24,7 @@ export const checkDomainAndPrompt = async (): Promise<{
           domainList: [],
           shouldScan: false,
           showPopup: false,
+          currentUrl,
         });
         return;
       }
@@ -39,6 +41,7 @@ export const checkDomainAndPrompt = async (): Promise<{
             domainList,
             shouldScan: true,
             showPopup: false,
+            currentUrl,
           });
         } else {
           resolve({
@@ -46,6 +49,7 @@ export const checkDomainAndPrompt = async (): Promise<{
             domainList,
             shouldScan: false,
             showPopup: true,
+            currentUrl,
           });
         }
       });

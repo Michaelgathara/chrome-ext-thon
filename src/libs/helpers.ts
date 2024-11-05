@@ -6,7 +6,17 @@ export const grabContent = async (): Promise<string> => {
         chrome.scripting.executeScript(
           {
             target: { tabId: tab.id },
-            func: () => document.body.innerText,
+            func: () => {
+              return new Promise<string>((resolve) => {
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                  resolve(document.body.innerText);
+                } else {
+                  window.addEventListener('DOMContentLoaded', () => {
+                    resolve(document.body.innerText);
+                  });
+                }
+              });
+            },
           },
           (result) => {
             resolve(result[0].result);

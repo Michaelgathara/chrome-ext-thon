@@ -30,7 +30,7 @@ const SidePanel: React.FC = () => {
   };
 
   const runScan = async () => {
-    const { currentDomain, domainList, shouldScan, showPopup } =
+    const { currentDomain, domainList, shouldScan, showPopup, currentUrl } =
       await checkDomainAndPrompt();
 
     setShouldScan(shouldScan);
@@ -40,8 +40,10 @@ const SidePanel: React.FC = () => {
 
     if (shouldScan) {
       setIsLoading(true);
-      console.log("Scanning the page...");
+      console.log("Scanning the page for url", currentUrl);
       const pageContent = await handleGrabContent();
+      console.log("page content", pageContent.slice(0, 300));
+
       const query = await aiService.prompt(pageContent.slice(0, 2000));
       ApiService.search(query!)
         .then((data) => {
@@ -78,6 +80,20 @@ const SidePanel: React.FC = () => {
       });
     };
 
+    const handleTabUpdate = async (
+      tabId: number,
+      changeInfo: chrome.tabs.TabChangeInfo,
+      tab: chrome.tabs.Tab
+    ) => {
+      console.log("running scan on tab change");
+      setSearchResults([]);
+      chrome.tabs.get(tabId, (tab) => {
+        if (tab.url) {
+          runScan();
+        }
+      });
+    };
+
     // Listen for page loads on any website
     const handlePageLoad = (
       details: chrome.webNavigation.WebNavigationFramedCallbackDetails
@@ -92,11 +108,11 @@ const SidePanel: React.FC = () => {
       }
     };
 
-    chrome.webNavigation.onCompleted.addListener(handlePageLoad);
+    chrome.tabs.onUpdated.addListener(handleTabUpdate);
     chrome.tabs.onActivated.addListener(handleTabChange);
 
     return () => {
-      chrome.webNavigation.onCompleted.removeListener(handlePageLoad);
+      chrome.tabs.onUpdated.removeListener(handleTabUpdate);
       chrome.tabs.onActivated.removeListener(handleTabChange);
     };
   }, []);
