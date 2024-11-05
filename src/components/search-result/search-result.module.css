@@ -34,7 +34,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(60deg, #d93025, #f9ab00, #1e8e3e, #d93025);
+  background: linear-gradient(60deg, var(--gemini-purple), var(--google-blue));
   border-radius: 0.6rem;
   z-index: -1;
   animation: gradientBorder 3s linear infinite;
