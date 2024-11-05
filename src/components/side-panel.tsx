@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { checkDomainAndPrompt, grabContent } from "../libs";
-import { testData } from "../data";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
 import { ApiService } from "../services/api-service";
 import { ScanPopup } from "./scan-popup";
+import { aiService } from "../services/ai-service";
 
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -42,7 +42,8 @@ const SidePanel: React.FC = () => {
       setIsLoading(true);
       console.log("Scanning the page...");
       const pageContent = await handleGrabContent();
-      ApiService.search(pageContent)
+      const query = await aiService.prompt(pageContent.slice(0, 3000));
+      ApiService.search(query!)
         .then((data) => {
           const results = data.searchResults;
           setSearchResults(results);

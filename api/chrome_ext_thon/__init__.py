@@ -32,18 +32,13 @@ app.add_middleware(
 
 @app.post("/api/search")
 async def search(search: Search):
-    LOG.info(f"Searching for {search.page_content}")
+    LOG.info(f"Searching for {search.query}")
     """
         TODO:
-        Get the page content 
-        Send it to gemini to generate a query
         Send the query to search to generate a json
         Send the json to frontend
     """
-    search_query = await gemini(user_prompt=search.page_content, use_case=2)
-    LOG.info(f"Generated search query: {search_query}")
-
-    search_results = await google_search(search_query)
+    search_results = await google_search(search.query)
     return {"searchResults": search_results}
 
 

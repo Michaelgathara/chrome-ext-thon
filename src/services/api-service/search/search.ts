@@ -1,7 +1,7 @@
 import { API_URL } from "../../../libs";
 
-export const search = async (pageContent: string) => {
-  const requestBody = { page_content: pageContent };
+export const search = async (query: string) => {
+  const requestBody = { query };
 
   const response = await fetch(`${API_URL}/search`, {
     method: "POST",
