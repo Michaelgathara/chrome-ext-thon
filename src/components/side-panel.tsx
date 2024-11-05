@@ -29,35 +29,43 @@ const SidePanel: React.FC = () => {
     setShouldScan(false);
   };
 
+  let debounceTimeout: NodeJS.Timeout | null = null;
+
   const runScan = async () => {
-    const { currentDomain, domainList, shouldScan, showPopup, currentUrl } =
-      await checkDomainAndPrompt();
-
-    setShouldScan(shouldScan);
-    setShowPopup(showPopup);
-    setDomainList(domainList);
-    setCurrentDomain(currentDomain);
-
-    if (shouldScan) {
-      setIsLoading(true);
-      console.log("Scanning the page for url", currentUrl);
-      const pageContent = await handleGrabContent();
-      console.log("page content", pageContent.slice(0, 300));
-
-      const query = await aiService.prompt(pageContent.slice(0, 2000));
-      ApiService.search(query!)
-        .then((data) => {
-          const results = data.searchResults;
-          setSearchResults(results);
-        })
-        .catch((error) => {
-          console.error("Error processing search results:", error);
-          setSearchResults([]);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
     }
+
+    debounceTimeout = setTimeout(async () => {
+      const { currentDomain, domainList, shouldScan, showPopup, currentUrl } =
+        await checkDomainAndPrompt();
+
+      setShouldScan(shouldScan);
+      setShowPopup(showPopup);
+      setDomainList(domainList);
+      setCurrentDomain(currentDomain);
+
+      if (shouldScan) {
+        setIsLoading(true);
+        console.log("Scanning the page for url", currentUrl);
+        const pageContent = await handleGrabContent();
+        console.log("page content", pageContent.slice(0, 300));
+
+        const query = await aiService.prompt(pageContent.slice(0, 2000));
+        ApiService.search(query!)
+          .then((data) => {
+            const results = data.searchResults;
+            setSearchResults(results);
+          })
+          .catch((error) => {
+            console.error("Error processing search results:", error);
+            setSearchResults([]);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      }
+    }, 200);
   };
 
   useEffect(() => {
