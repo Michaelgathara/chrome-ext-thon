@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classes from "./search-result.module.css";
 import { Tooltip } from "@mui/material";
+import { aiService } from "../../services/ai-service";
 import { ApiService } from "../../services/api-service";
 
 export type SearchResultProps = {
@@ -22,9 +23,10 @@ export const SearchResult = ({
   const handleSummarize = async () => {
     setLoading(true);
 
-    const summary = await ApiService.summarize(url);
+    const pageContent = await ApiService.summarize(url);
+    const summary = await aiService.summarizeContent(pageContent.content);
 
-    setSummary(summary.summary);
+    setSummary(summary);
     setLoading(false);
   };
 

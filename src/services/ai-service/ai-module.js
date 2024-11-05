@@ -1,4 +1,4 @@
-import { SEARCH_PROMPT } from "./prompts";
+import { SEARCH_PROMPT, SUMMARIZE_PROMPT } from "./prompts";
 
 export async function prompt(prompt) {
   try {
@@ -18,5 +18,30 @@ export async function prompt(prompt) {
   } catch (error) {
     console.error("Error generating prompt:", error);
     throw error;
+  }
+}
+
+export async function summarize(content) {
+  content = content.slice(0, 3000);
+  const canSummarize = await ai.summarizer.capabilities();
+  let summarizer;
+  if (canSummarize && canSummarize.available !== "no") {
+    console.log("can summarize", canSummarize);
+    if (canSummarize.available === "readily") {
+      console.log("readily available");
+      summarizer = await ai.summarizer.create();
+      return await summarizer.summarize(SUMMARIZE_PROMPT + content);
+    } else {
+      console.log("not readily available");
+      summarizer = await ai.summarizer.create();
+      summarizer.addEventListener("downloadprogress", (e) => {
+        console.log(e.loaded, e.total);
+      });
+      await summarizer.ready;
+      console.log("summarizer ready");
+      return await summarizer.summarize(SUMMARIZE_PROMPT + content);
+    }
+  } else {
+    // The summarizer can't be used at all.
   }
 }

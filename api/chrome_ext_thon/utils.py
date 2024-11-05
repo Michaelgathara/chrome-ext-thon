@@ -69,6 +69,4 @@ async def summarize_page(url: str):
     page_content = requests.get(url)
     soup = BeautifulSoup(page_content.text, "html.parser")  # Parse the HTML content
     stripped_content = soup.get_text(strip=True)  # Get the stripped text content
-
-    summary = await gemini(user_prompt=stripped_content, use_case=1)
-    return summary
+    return stripped_content

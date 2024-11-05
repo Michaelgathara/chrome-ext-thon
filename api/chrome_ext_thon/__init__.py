@@ -45,5 +45,5 @@ async def search(search: Search):
 @app.post("/api/summarize")
 async def short_summary(summary: Summarize):
     LOG.info(f"Summarizing {summary.url}")
-    short_summary = await summarize_page(summary.url)
-    return {"summary": short_summary}
+    content = await summarize_page(summary.url)
+    return {"content": content}
