@@ -42,7 +42,7 @@ const SidePanel: React.FC = () => {
       setIsLoading(true);
       console.log("Scanning the page...");
       const pageContent = await handleGrabContent();
-      const query = await aiService.prompt(pageContent.slice(0, 3000));
+      const query = await aiService.prompt(pageContent.slice(0, 2000));
       ApiService.search(query!)
         .then((data) => {
           const results = data.searchResults;

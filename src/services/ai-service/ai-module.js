@@ -22,7 +22,7 @@ export async function prompt(prompt) {
 }
 
 export async function summarize(content) {
-  content = content.slice(0, 3000);
+  content = content.slice(0, 2000);
   const canSummarize = await ai.summarizer.capabilities();
   let summarizer;
   if (canSummarize && canSummarize.available !== "no") {
