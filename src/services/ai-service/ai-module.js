@@ -1,23 +1,31 @@
 import { SEARCH_PROMPT, SUMMARIZE_PROMPT } from "./prompts";
 
 export async function prompt(prompt) {
-  try {
-    const { available } = await ai.languageModel.capabilities();
-    console.log("available", available);
+  const maxRetries = 10; // Maximum number of retries
+  let attempt = 0; // Current attempt count
 
-    if (available !== "no") {
-      console.log("creating session");
-      const session = await ai.languageModel.create();
-      console.log("prompting session");
-      const result = await session.prompt(`${SEARCH_PROMPT}${prompt}`);
-      return result;
-    } else {
-      console.warn("Language model is not available.");
-      return null;
+  while (attempt < maxRetries) {
+    try {
+      const { available } = await ai.languageModel.capabilities();
+      console.log("available", available);
+
+      if (available !== "no") {
+        console.log("creating session");
+        const session = await ai.languageModel.create();
+        console.log("prompting session");
+        const result = await session.prompt(`${SEARCH_PROMPT}${prompt}`);
+        return result;
+      } else {
+        console.warn("Language model is not available.");
+        return null;
+      }
+    } catch (error) {
+      attempt++; // Increment the attempt count
+      console.error(`Error generating prompt (attempt ${attempt}):`, error);
+      if (attempt >= maxRetries) {
+        throw error; // Rethrow the error if max retries reached
+      }
     }
-  } catch (error) {
-    console.error("Error generating prompt:", error);
-    throw error;
   }
 }
 
