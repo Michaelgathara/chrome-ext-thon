@@ -1,11 +1,14 @@
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
-GEMINI_KEY = os.getenv('GEMINI_API_KEY')
+GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 
 SUMMARIZE_SYSTEM_PROMPT = f"""
-You are a summarizing assistant who takes in a bunch of text and summarizes it in about 20 words, the text goes as follows: \n\n
+You are a summarizing assistant who takes in a bunch of text and summarizes it in about 50-100 words. 
+Do not use any markdown formatting.
+Each summary should either be a single paragraph or a list of bullet points. The text goes as follows: \n\n
 """
 
 # SEARCH_SYSTEM_PROMPT = """

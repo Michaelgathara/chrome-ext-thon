@@ -2,6 +2,23 @@
   background-color: var(--accent-background-color);
   border-radius: 0.5rem;
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchResult img {
+  width: 1.75rem;
+  height: 1.75rem;
+
+  margin-top: 0.25rem;
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.searchResultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* TODO: Figure out rounded, animated, and gradient border - all around the search result */
@@ -11,7 +28,7 @@
 }
 
 .highlighted::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -2px;
   left: -2px;
@@ -44,4 +61,60 @@ a {
 
 .h3 {
   margin-top: 0;
+}
+
+.geminiIcon {
+  -webkit-mask-image: linear-gradient(
+    45deg,
+    #000 25%,
+    rgba(0, 0, 0, 0.2) 50%,
+    #000 75%
+  );
+  mask-image: linear-gradient(
+    45deg,
+    #000 25%,
+    rgba(0, 0, 0, 0.2) 50%,
+    #000 75%
+  );
+  -webkit-mask-size: 800%;
+  mask-size: 800%;
+  -webkit-mask-position: 0;
+  mask-position: 0;
+}
+
+.geminiIcon:hover {
+  cursor: pointer;
+  transition: mask-position 2s ease, -webkit-mask-position 2s ease;
+  -webkit-mask-position: 120%;
+  mask-position: 120%;
+  opacity: 1;
+}
+
+.summarySeparator {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 1rem;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    var(--gemini-purple),
+    var(--google-blue)
+  );
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
 }

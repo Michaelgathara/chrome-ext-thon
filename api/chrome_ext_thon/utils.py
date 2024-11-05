@@ -5,10 +5,11 @@ from googlesearch import (
     search,
 )  # this is actually a wrapper for beautifulsoup and requests
 from api.chrome_ext_thon.configs import (
-    SUMMARIZE_SYSTEM_PROMPT,
     SEARCH_SYSTEM_PROMPT,
+    SUMMARIZE_SYSTEM_PROMPT,
     GEMINI_KEY,
 )
+from bs4 import BeautifulSoup
 
 LOG_LEVEL = os.getenv("LOG_LEVEL") or "INFO"
 
@@ -62,3 +63,12 @@ async def google_search(query):
         )
 
     return results_list
+
+
+async def summarize_page(url: str):
+    page_content = requests.get(url)
+    soup = BeautifulSoup(page_content.text, "html.parser")  # Parse the HTML content
+    stripped_content = soup.get_text(strip=True)  # Get the stripped text content
+
+    summary = await gemini(user_prompt=stripped_content, use_case=1)
+    return summary

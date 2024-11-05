@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./search-result.module.css";
+import { Tooltip } from "@mui/material";
+import { ApiService } from "../../services/api-service";
 
 export type SearchResultProps = {
   url: string;
@@ -14,12 +16,62 @@ export const SearchResult = ({
   description,
   highlighted = false,
 }: SearchResultProps) => {
-  console.log(url, title, description);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSummarize = async () => {
+    setLoading(true);
+
+    const summary = await ApiService.summarize(url);
+
+    setSummary(summary.summary);
+    setLoading(false);
+  };
+
   return (
-    <div className={`${classes.searchResult} ${highlighted ? classes.highlighted : ""}`}>
-      <h3>{title}</h3>
+    <div
+      className={`${classes.searchResult} ${
+        highlighted ? classes.highlighted : ""
+      }`}
+    >
+      <div className={classes.searchResultHeader}>
+        <h3>{title}</h3>
+        {loading ? (
+          <div className={classes.loader} />
+        ) : (
+          <Tooltip
+            title="Summarize with Gemini"
+            placement="left"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: "var(--google-blue)",
+                  "& .MuiTooltip-arrow": {
+                    color: "white",
+                  },
+                },
+              },
+            }}
+          >
+            <img
+              onClick={handleSummarize}
+              className={classes.geminiIcon}
+              src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png"
+              alt="gemini-summarize"
+            />
+          </Tooltip>
+        )}
+      </div>
       <p>{description}</p>
-      <a target="_blank" rel="noreferrer" href={url}>{url}</a>
+      <a target="_blank" rel="noreferrer" href={url}>
+        {url}
+      </a>
+      {summary && (
+        <>
+          <hr className={classes.summarySeparator} />
+          <p>{summary}</p>
+        </>
+      )}
     </div>
   );
 };

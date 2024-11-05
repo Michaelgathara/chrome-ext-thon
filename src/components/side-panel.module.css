@@ -33,7 +33,7 @@
 .loader {
   width: 120px;
   height: 20px;
-  background: linear-gradient(90deg, #0000, var(--google-yellow)) left -50px top
+  background: linear-gradient(90deg, #0000, var(--gemini-purple)) left -50px top
     0/50px 20px no-repeat var(--google-blue);
   animation: l2 1s infinite linear;
   border-radius: 10px;
