@@ -6,13 +6,11 @@ export const ScanPopup = ({
   onCancel,
   domainList,
   setShowPopup,
-  setShouldScan,
 }: {
   currentDomain: string;
   onConfirm: () => void;
   onCancel: () => void;
   setShowPopup: (showPopup: boolean) => void;
-  setShouldScan: (shouldScan: boolean) => void;
   domainList: string[];
 }) => {
   const handleYes = () => {
@@ -22,7 +20,6 @@ export const ScanPopup = ({
       () => {
         onConfirm();
         setShowPopup(false);
-        setShouldScan(true);
       }
     );
   };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { checkDomainAndPrompt, grabContent } from "../libs";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
@@ -9,10 +9,10 @@ import { aiService } from "../services/ai-service";
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldScan, setShouldScan] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [currentDomain, setCurrentDomain] = useState<string>("");
   const [domainList, setDomainList] = useState<string[]>([]);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const handleGrabContent = async () => {
     const content = await grabContent();
@@ -21,51 +21,49 @@ const SidePanel: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    setShouldScan(true);
     runScan();
   };
 
   const handleCancel = () => {
-    setShouldScan(false);
+    // User has chosen not to scan the page
   };
 
-  let debounceTimeout: NodeJS.Timeout | null = null;
-
   const runScan = async () => {
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout);
+    console.log("running scan");
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
     }
 
-    debounceTimeout = setTimeout(async () => {
-      const { currentDomain, domainList, shouldScan, showPopup, currentUrl } =
-        await checkDomainAndPrompt();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    const signal = controller.signal;
 
-      setShouldScan(shouldScan);
-      setShowPopup(showPopup);
-      setDomainList(domainList);
-      setCurrentDomain(currentDomain);
+    const { currentDomain, domainList, shouldScan, showPopup, currentUrl } =
+      await checkDomainAndPrompt();
 
-      if (shouldScan) {
-        setIsLoading(true);
-        console.log("Scanning the page for url", currentUrl);
-        const pageContent = await handleGrabContent();
-        console.log("page content", pageContent.slice(0, 300));
+    setShowPopup(showPopup);
+    setDomainList(domainList);
+    setCurrentDomain(currentDomain);
 
-        const query = await aiService.prompt(pageContent.slice(0, 2000));
-        ApiService.search(query!)
-          .then((data) => {
-            const results = data.searchResults;
-            setSearchResults(results);
-          })
-          .catch((error) => {
-            console.error("Error processing search results:", error);
-            setSearchResults([]);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+    if (shouldScan) {
+      setIsLoading(true);
+      const pageContent = await handleGrabContent();
+      const query = await aiService.prompt(pageContent.slice(0, 2000));
+
+      try {
+        const results = await ApiService.search(query!, signal);
+        console.log("search results", results);
+        setSearchResults(results.searchResults);
+        setIsLoading(false);
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+          // Request was aborted, no need to log
+        } else {
+          console.error("Search request failed", error);
+          setIsLoading(false);
+        }
       }
-    }, 200);
+    }
   };
 
   useEffect(() => {
@@ -88,11 +86,7 @@ const SidePanel: React.FC = () => {
       });
     };
 
-    const handleTabUpdate = async (
-      tabId: number,
-      changeInfo: chrome.tabs.TabChangeInfo,
-      tab: chrome.tabs.Tab
-    ) => {
+    const handleTabUpdate = async (tabId: number) => {
       console.log("running scan on tab change");
       setSearchResults([]);
       chrome.tabs.get(tabId, (tab) => {
@@ -100,20 +94,6 @@ const SidePanel: React.FC = () => {
           runScan();
         }
       });
-    };
-
-    // Listen for page loads on any website
-    const handlePageLoad = (
-      details: chrome.webNavigation.WebNavigationFramedCallbackDetails
-    ) => {
-      setSearchResults([]);
-      if (details.frameId === 0) {
-        chrome.tabs.get(details.tabId, (tab) => {
-          if (tab.url) {
-            runScan();
-          }
-        });
-      }
     };
 
     chrome.tabs.onUpdated.addListener(handleTabUpdate);
@@ -130,7 +110,6 @@ const SidePanel: React.FC = () => {
       return null;
     }
 
-    // TODO: Highlight the first two results in like a Google AI looking color border
     return (
       <div className={classes.searchResults}>
         {isLoading ? (
@@ -138,7 +117,7 @@ const SidePanel: React.FC = () => {
             <p>Loading recommendations...</p>
             <div className={classes.loader}></div>
           </div>
-        ) : searchResults?.length > 0 ? (
+        ) : searchResults.length > 0 ? (
           searchResults.map((result, index) => (
             <SearchResult
               key={index}
@@ -149,7 +128,7 @@ const SidePanel: React.FC = () => {
             />
           ))
         ) : (
-          <p>No recommendations found.</p>
+          !isLoading && <p>No recommendations found.</p>
         )}
       </div>
     );
@@ -181,7 +160,6 @@ const SidePanel: React.FC = () => {
           onConfirm={handleConfirm}
           onCancel={handleCancel}
           setShowPopup={setShowPopup}
-          setShouldScan={setShouldScan}
         />
       )}
     </div>

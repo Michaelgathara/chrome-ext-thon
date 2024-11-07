@@ -1,6 +1,7 @@
 import { API_URL } from "../../../libs";
 
-export const search = async (query: string) => {
+export const search = async (query: string, signal?: AbortSignal) => {
+  console.log("searching for", query);
   const requestBody = { query };
 
   const response = await fetch(`${API_URL}/search`, {
@@ -9,6 +10,7 @@ export const search = async (query: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(requestBody),
+    signal,
   });
   return response.json();
 };

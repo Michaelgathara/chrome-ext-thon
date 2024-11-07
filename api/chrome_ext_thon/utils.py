@@ -62,6 +62,7 @@ async def google_search(query):
             {"url": res.url, "title": res.title, "description": res.description}
         )
 
+    LOG.info(f"Google search results: {results_list}")
     return results_list
 
 
