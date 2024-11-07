@@ -33,7 +33,7 @@ const SidePanel: React.FC = () => {
       setCurrentDomain(currentDomain);
     }
 
-    if (shouldScan || collectData || !isGoogle) {
+    if ((shouldScan || collectData) && !isGoogle) {
       setIsLoading(true);
       const content = await grabContent();
       const query = await aiService.prompt(content.slice(0, 2000));
