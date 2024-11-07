@@ -71,7 +71,9 @@ export const SearchResult = ({
       {summary && (
         <>
           <hr className={classes.summarySeparator} />
-          <p>{summary}</p>
+          {summary.split('\n').map((line, index) => (
+            <p key={index}>{line}</p>
+          ))}
         </>
       )}
     </div>

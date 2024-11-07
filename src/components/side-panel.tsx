@@ -125,7 +125,7 @@ const SidePanel: React.FC = () => {
     return searchResults?.length > 0 ? (
       <>
         <h1>Recommended Pages</h1>
-        <p>These recommended sites were found based on your current page.</p>
+        <p>Gemini has recommended these pages for you.</p>
       </>
     ) : (
       <>
