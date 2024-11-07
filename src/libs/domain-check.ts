@@ -4,6 +4,7 @@ export const checkDomainAndPrompt = async (): Promise<{
   shouldScan: boolean;
   showPopup: boolean;
   currentUrl: string;
+  isGoogle: boolean;
 }> => {
   return new Promise((resolve) => {
     console.log("Checking domain and prompting...");
@@ -25,6 +26,7 @@ export const checkDomainAndPrompt = async (): Promise<{
           shouldScan: false,
           showPopup: false,
           currentUrl,
+          isGoogle: true,
         });
         return;
       }
@@ -42,6 +44,7 @@ export const checkDomainAndPrompt = async (): Promise<{
             shouldScan: true,
             showPopup: false,
             currentUrl,
+            isGoogle: false,
           });
         } else {
           resolve({
@@ -50,6 +53,7 @@ export const checkDomainAndPrompt = async (): Promise<{
             shouldScan: false,
             showPopup: true,
             currentUrl,
+            isGoogle: false,
           });
         }
       });

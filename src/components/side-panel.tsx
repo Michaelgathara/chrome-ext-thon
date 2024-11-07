@@ -24,7 +24,7 @@ const SidePanel: React.FC = () => {
     const signal = controller.signal;
 
     const { collectData } = await chrome.storage.sync.get("collectData");
-    const { currentDomain, domainList, shouldScan, showPopup } =
+    const { currentDomain, domainList, shouldScan, showPopup, isGoogle } =
       await checkDomainAndPrompt();
 
     if (!collectData) {
@@ -33,7 +33,7 @@ const SidePanel: React.FC = () => {
       setCurrentDomain(currentDomain);
     }
 
-    if (shouldScan || collectData) {
+    if (shouldScan || collectData || !isGoogle) {
       setIsLoading(true);
       const content = await grabContent();
       const query = await aiService.prompt(content.slice(0, 2000));
