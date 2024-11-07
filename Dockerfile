@@ -5,11 +5,11 @@ RUN apt update && apt install -y uvicorn gcc g++
 RUN python -m pip --no-cache-dir install pdm
 RUN pdm config python.use_venv false
 
-COPY pyproject.toml pdm.lock /project/app/
-COPY ./api/ /project/app/api
-
 WORKDIR /project/app
+COPY pyproject.toml pdm.lock /project/app/
 RUN pdm install
+
+COPY ./api/ /project/app/api
 
 # Create final image
 FROM python:3.10.12-slim
