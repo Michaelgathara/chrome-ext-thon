@@ -3,10 +3,11 @@ import os
 import logging
 
 # PDM
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.chrome_ext_thon.models import Search, Summarize
-from api.chrome_ext_thon.utils import google_search, gemini, summarize_page
+from api.chrome_ext_thon.utils import google_search, summarize_page
 
 
 LOG_LEVEL = os.getenv("LOG_LEVEL") or "INFO"
@@ -39,11 +40,13 @@ async def search(search: Search):
         Send the json to frontend
     """
     search_results = await google_search(search.query)
-    return {"searchResults": search_results}
+    return JSONResponse(
+        content={"searchResults": [res.model_dump() for res in search_results]}
+    )
 
 
 @app.post("/api/summarize")
 async def short_summary(summary: Summarize):
     LOG.info(f"Summarizing {summary.url}")
     content = await summarize_page(summary.url)
-    return {"content": content}
+    return JSONResponse(content={"content": content})

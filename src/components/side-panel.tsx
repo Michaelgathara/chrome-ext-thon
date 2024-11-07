@@ -14,22 +14,7 @@ const SidePanel: React.FC = () => {
   const [domainList, setDomainList] = useState<string[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const handleGrabContent = async () => {
-    const content = await grabContent();
-    console.log(content);
-    return content;
-  };
-
-  const handleConfirm = () => {
-    runScan();
-  };
-
-  const handleCancel = () => {
-    // User has chosen not to scan the page
-  };
-
   const runScan = async () => {
-    console.log("running scan");
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -38,21 +23,23 @@ const SidePanel: React.FC = () => {
     abortControllerRef.current = controller;
     const signal = controller.signal;
 
-    const { currentDomain, domainList, shouldScan, showPopup, currentUrl } =
+    const { collectData } = await chrome.storage.sync.get("collectData");
+    const { currentDomain, domainList, shouldScan, showPopup } =
       await checkDomainAndPrompt();
 
-    setShowPopup(showPopup);
-    setDomainList(domainList);
-    setCurrentDomain(currentDomain);
+    if (!collectData) {
+      setShowPopup(showPopup);
+      setDomainList(domainList);
+      setCurrentDomain(currentDomain);
+    }
 
-    if (shouldScan) {
+    if (shouldScan || collectData) {
       setIsLoading(true);
-      const pageContent = await handleGrabContent();
-      const query = await aiService.prompt(pageContent.slice(0, 2000));
+      const content = await grabContent();
+      const query = await aiService.prompt(content.slice(0, 2000));
 
       try {
         const results = await ApiService.search(query!, signal);
-        console.log("search results", results);
         setSearchResults(results.searchResults);
         setIsLoading(false);
       } catch (error) {
@@ -77,8 +64,8 @@ const SidePanel: React.FC = () => {
 
     // Listen for tab changes
     const handleTabChange = async (activeInfo: chrome.tabs.TabActiveInfo) => {
-      console.log("running scan on tab change");
       setSearchResults([]);
+
       chrome.tabs.get(activeInfo.tabId, (tab) => {
         if (tab.url) {
           runScan();
@@ -87,8 +74,8 @@ const SidePanel: React.FC = () => {
     };
 
     const handleTabUpdate = async (tabId: number) => {
-      console.log("running scan on tab change");
       setSearchResults([]);
+
       chrome.tabs.get(tabId, (tab) => {
         if (tab.url) {
           runScan();
@@ -128,7 +115,7 @@ const SidePanel: React.FC = () => {
             />
           ))
         ) : (
-          !isLoading && <p>No recommendations found.</p>
+          <p>No recommendations found.</p>
         )}
       </div>
     );
@@ -157,8 +144,7 @@ const SidePanel: React.FC = () => {
         <ScanPopup
           currentDomain={currentDomain}
           domainList={domainList}
-          onConfirm={handleConfirm}
-          onCancel={handleCancel}
+          onConfirm={runScan}
           setShowPopup={setShowPopup}
         />
       )}

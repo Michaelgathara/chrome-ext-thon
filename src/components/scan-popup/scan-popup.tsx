@@ -1,15 +1,11 @@
-import React from "react";
-
 export const ScanPopup = ({
   currentDomain,
   onConfirm,
-  onCancel,
   domainList,
   setShowPopup,
 }: {
   currentDomain: string;
   onConfirm: () => void;
-  onCancel: () => void;
   setShowPopup: (showPopup: boolean) => void;
   domainList: string[];
 }) => {
@@ -25,7 +21,6 @@ export const ScanPopup = ({
   };
 
   const handleNo = () => {
-    onCancel();
     setShowPopup(false);
   };
 

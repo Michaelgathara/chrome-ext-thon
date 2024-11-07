@@ -8,12 +8,19 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-import classes from "./options.module.css";
 
 export const Options: React.FC = () => {
   const [collectData, setCollectData] = useState<boolean>(false);
   const [domainList, setDomainList] = useState<string[]>([]);
-  const [isWhitelist, setIsWhitelist] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchStoredData = async () => {
+      const result = await chrome.storage.sync.get("collectData");
+      setCollectData(result.collectData || false);
+    };
+
+    fetchStoredData();
+  }, []);
 
   useEffect(() => {
     chrome.storage.sync.get("domainList", (result) => {
@@ -22,7 +29,7 @@ export const Options: React.FC = () => {
   }, []);
 
   const handleSave = () => {
-    chrome.storage.sync.set({ collectData, domainList, isWhitelist }, () => {
+    chrome.storage.sync.set({ collectData, domainList }, () => {
       console.log("Settings saved");
     });
   };

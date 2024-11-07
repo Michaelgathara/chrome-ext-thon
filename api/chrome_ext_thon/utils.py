@@ -1,9 +1,12 @@
 # pyright: reportUnknownMemberType=false
-import os, requests, logging, json
+import os, requests, logging
+from typing import cast
 import google.generativeai as genai
 from googlesearch import (
+    SearchResult,
     search,
 )  # this is actually a wrapper for beautifulsoup and requests
+from api.chrome_ext_thon.models import GoogleSearchResult
 from api.chrome_ext_thon.configs import (
     SEARCH_SYSTEM_PROMPT,
     SUMMARIZE_SYSTEM_PROMPT,
@@ -49,17 +52,19 @@ async def gemini(
         return user_prompt
 
 
-async def google_search(query):
+async def google_search(query: str):
     """
     this is a beautifulsoup implementation
     https://pypi.org/project/googlesearch-python/
     """
     response = search(query, num_results=10, advanced=True)
-    LOG.info(f"Google search response: {response}")
-    results_list = []
+    results_list: list[GoogleSearchResult] = []
     for res in response:
+        res = cast(SearchResult, res)
         results_list.append(
-            {"url": res.url, "title": res.title, "description": res.description}
+            GoogleSearchResult(
+                url=res.url, title=res.title, description=res.description
+            )
         )
 
     LOG.info(f"Google search results: {results_list}")
