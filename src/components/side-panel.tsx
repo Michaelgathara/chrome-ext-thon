@@ -136,7 +136,7 @@ const SidePanel: React.FC = () => {
             <p>No recommendations found.</p>
           )}
         </div>
-        {!isLoading && webpagesSummary && (
+        {!isLoading && webpagesSummary && searchResults.length > 0 && (
           <div className={classes.summary}>
             <ReactMarkdown>{webpagesSummary}</ReactMarkdown>
           </div>
