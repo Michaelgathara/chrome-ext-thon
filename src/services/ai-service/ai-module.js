@@ -1,6 +1,6 @@
 import { SEARCH_PROMPT, SUMMARIZE_PROMPT } from "./prompts";
 
-export async function prompt(prompt) {
+export async function prompt(prompt, customPrompt = SEARCH_PROMPT) {
   const maxRetries = 10; // Maximum number of retries
   let attempt = 0; // Current attempt count
 
@@ -13,7 +13,7 @@ export async function prompt(prompt) {
         console.log("creating session");
         const session = await ai.languageModel.create();
         console.log("prompting session");
-        const result = await session.prompt(`${SEARCH_PROMPT}${prompt}`);
+        const result = await session.prompt(`${customPrompt}${prompt}`);
         return result;
       } else {
         console.warn("Language model is not available.");

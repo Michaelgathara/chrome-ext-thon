@@ -5,6 +5,7 @@ import classes from "./side-panel.module.css";
 import { ApiService } from "../services/api-service";
 import { ScanPopup } from "./scan-popup";
 import { aiService } from "../services/ai-service";
+import ReactMarkdown from "react-markdown";
 
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -12,6 +13,8 @@ const SidePanel: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [currentDomain, setCurrentDomain] = useState<string>("");
   const [domainList, setDomainList] = useState<string[]>([]);
+  const [webpagesSummary, setWebpagesSummary] = useState<string>("");
+
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const runScan = async () => {
@@ -33,6 +36,10 @@ const SidePanel: React.FC = () => {
       setCurrentDomain(currentDomain);
     }
 
+    if (!shouldScan || !collectData || isGoogle) {
+      setWebpagesSummary("");
+    }
+
     if ((shouldScan || collectData) && !isGoogle) {
       setIsLoading(true);
       const content = await grabContent();
@@ -41,6 +48,17 @@ const SidePanel: React.FC = () => {
       try {
         const results = await ApiService.search(query!, signal);
         setSearchResults(results.searchResults);
+        console.log(results.searchResults);
+        const compiledDescription = results.searchResults.reduce(
+          (acc: string, result: any) => {
+            return acc + result.description + "\n";
+          },
+          ""
+        );
+
+        const summary = await aiService.summarizeContent(compiledDescription);
+
+        setWebpagesSummary(summary);
         setIsLoading(false);
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") {
@@ -56,6 +74,9 @@ const SidePanel: React.FC = () => {
   useEffect(() => {
     // Run once when the sidebar opens
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (webpagesSummary) {
+        setWebpagesSummary("");
+      }
       const currentTab = tabs[0];
       if (currentTab?.url) {
         runScan();
@@ -66,6 +87,10 @@ const SidePanel: React.FC = () => {
     const handleTabChange = async (activeInfo: chrome.tabs.TabActiveInfo) => {
       setSearchResults([]);
 
+      if (webpagesSummary) {
+        setWebpagesSummary("");
+      }
+
       chrome.tabs.get(activeInfo.tabId, (tab) => {
         if (tab.url) {
           runScan();
@@ -75,6 +100,10 @@ const SidePanel: React.FC = () => {
 
     const handleTabUpdate = async (tabId: number) => {
       setSearchResults([]);
+
+      if (webpagesSummary) {
+        setWebpagesSummary("");
+      }
 
       chrome.tabs.get(tabId, (tab) => {
         if (tab.url) {
@@ -98,32 +127,39 @@ const SidePanel: React.FC = () => {
     }
 
     return (
-      <div className={classes.searchResults}>
-        {isLoading ? (
-          <div className={classes.loaderContainer}>
-            <p>Loading recommendations...</p>
-            <div className={classes.loader}></div>
+      <>
+        <div className={classes.searchResults}>
+          {isLoading ? (
+            <div className={classes.loaderContainer}>
+              <p>Loading recommendations...</p>
+              <div className={classes.loader}></div>
+            </div>
+          ) : searchResults.length > 0 ? (
+            searchResults.map((result, index) => (
+              <SearchResult
+                key={index}
+                url={result.url}
+                title={result.title}
+                description={result.description}
+                favicon={result.favicon}
+                highlighted={index < 2}
+              />
+            ))
+          ) : (
+            <p>No recommendations found.</p>
+          )}
+        </div>
+        {webpagesSummary && (
+          <div className={classes.summary}>
+            <ReactMarkdown>{webpagesSummary}</ReactMarkdown>
           </div>
-        ) : searchResults.length > 0 ? (
-          searchResults.map((result, index) => (
-            <SearchResult
-              key={index}
-              url={result.url}
-              title={result.title}
-              description={result.description}
-              favicon={result.favicon}
-              highlighted={index < 2}
-            />
-          ))
-        ) : (
-          <p>No recommendations found.</p>
         )}
-      </div>
+      </>
     );
   };
 
   const SidePanelHeader = ({ className }: { className: string }) => {
-    return searchResults?.length > 0 ? (
+    return !isLoading && searchResults?.length > 0 ? (
       <div className={className}>
         <h1>Recommended Pages</h1>
         <p className={classes.recommendedPages}>
