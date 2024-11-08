@@ -131,7 +131,14 @@ const SidePanel: React.FC = () => {
       </div>
     ) : (
       <div className={className}>
-        <h1>Gemini Search</h1>
+        <div className={classes.geminiHeader}>
+          <h1>Gemini Search</h1>
+          <img
+            className={classes.geminiIcon}
+            src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png"
+            alt="gemini-summarize"
+          />
+        </div>
         <p className={classes.recommendedPages}>
           Visit a website or allow access to site to get started.
         </p>
