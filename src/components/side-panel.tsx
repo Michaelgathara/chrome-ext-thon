@@ -74,9 +74,6 @@ const SidePanel: React.FC = () => {
   useEffect(() => {
     // Run once when the sidebar opens
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (webpagesSummary) {
-        setWebpagesSummary("");
-      }
       const currentTab = tabs[0];
       if (currentTab?.url) {
         runScan();
@@ -86,11 +83,6 @@ const SidePanel: React.FC = () => {
     // Listen for tab changes
     const handleTabChange = async (activeInfo: chrome.tabs.TabActiveInfo) => {
       setSearchResults([]);
-
-      if (webpagesSummary) {
-        setWebpagesSummary("");
-      }
-
       chrome.tabs.get(activeInfo.tabId, (tab) => {
         if (tab.url) {
           runScan();
@@ -100,11 +92,6 @@ const SidePanel: React.FC = () => {
 
     const handleTabUpdate = async (tabId: number) => {
       setSearchResults([]);
-
-      if (webpagesSummary) {
-        setWebpagesSummary("");
-      }
-
       chrome.tabs.get(tabId, (tab) => {
         if (tab.url) {
           runScan();
@@ -149,7 +136,7 @@ const SidePanel: React.FC = () => {
             <p>No recommendations found.</p>
           )}
         </div>
-        {webpagesSummary && (
+        {!isLoading && webpagesSummary && (
           <div className={classes.summary}>
             <ReactMarkdown>{webpagesSummary}</ReactMarkdown>
           </div>
