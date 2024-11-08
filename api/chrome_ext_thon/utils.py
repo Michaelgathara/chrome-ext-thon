@@ -2,7 +2,7 @@
 import os, requests, logging
 from typing import cast
 import google.generativeai as genai
-from googlesearch import (
+from api.chrome_ext_thon.google_utils import (
     SearchResult,
     search,
 )  # this is actually a wrapper for beautifulsoup and requests
@@ -65,7 +65,10 @@ async def google_search(query: str):
         res = cast(SearchResult, res)
         results_list.append(
             GoogleSearchResult(
-                url=res.url, title=res.title, description=res.description
+                url=res.url,
+                title=res.title,
+                description=res.description,
+                favicon=res.favicon,
             )
         )
 

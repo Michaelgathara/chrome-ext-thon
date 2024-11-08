@@ -8,6 +8,7 @@ export type SearchResultProps = {
   url: string;
   title: string;
   description: string;
+  favicon: string;
   highlighted?: boolean;
 };
 
@@ -15,6 +16,7 @@ export const SearchResult = ({
   url,
   title,
   description,
+  favicon,
   highlighted = false,
 }: SearchResultProps) => {
   const [summary, setSummary] = useState<string | null>(null);
@@ -37,7 +39,10 @@ export const SearchResult = ({
       }`}
     >
       <div className={classes.searchResultHeader}>
-        <h3>{title}</h3>
+        <div className={classes.favicon}>
+          <img src={favicon} alt="favicon" />
+          <h3>{title}</h3>
+        </div>
         {loading ? (
           <div className={classes.loader} />
         ) : (

@@ -111,6 +111,7 @@ const SidePanel: React.FC = () => {
               url={result.url}
               title={result.title}
               description={result.description}
+              favicon={result.favicon}
               highlighted={index < 2}
             />
           ))

@@ -13,3 +13,4 @@ class GoogleSearchResult(BaseModel):
     url: str
     title: str
     description: str
+    favicon: str

@@ -2,6 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 from typing import Optional
 from urllib.parse import quote_plus
+import logging
+
+LOG = logging.getLogger(__name__)
+
 
 def _req(
     term: str,
@@ -14,54 +18,83 @@ def _req(
     ssl_verify: Optional[bool],
     region: Optional[str],
 ) -> requests.Response:
-    
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
-    
+
     params = {
-        'q': term,
-        'num': results_per_page,
-        'hl': lang,
-        'start': start,
-        'safe': safe
+        "q": term,
+        "num": results_per_page,
+        "hl": lang,
+        "start": start,
+        "safe": safe,
     }
-    
+
     if region:
-        params['gl'] = region
-    
-    url = f"https://www.google.com/search?" + "&".join(f"{k}={quote_plus(str(v))}" for k, v in params.items())
-    
+        params["gl"] = region
+
+    url = f"https://www.google.com/search?" + "&".join(
+        f"{k}={quote_plus(str(v))}" for k, v in params.items()
+    )
+
     return requests.get(
         url,
         headers=headers,
         proxies=proxies,
         timeout=timeout,
-        verify=ssl_verify if ssl_verify is not None else True
+        verify=ssl_verify if ssl_verify is not None else True,
     )
 
+
 class SearchResult:
-    def __init__(self, url, title, description):
+    def __init__(self, url, title, description, favicon):
         self.url = url
         self.title = title
         self.description = description
+        self.favicon = favicon
 
     def __repr__(self):
         return f"SearchResult(url={self.url}, title={self.title}, description={self.description})"
 
-def search(term, num_results=10, lang="en", proxy=None, advanced=False, sleep_interval=0, timeout=5, safe="active", ssl_verify=None, region=None):
+
+def search(
+    term,
+    num_results=10,
+    lang="en",
+    proxy=None,
+    advanced=False,
+    sleep_interval=0,
+    timeout=5,
+    safe="active",
+    ssl_verify=None,
+    region=None,
+):
     """Search the Google search engine"""
 
     # Proxy setup
-    proxies = {"https": proxy, "http": proxy} if proxy and (proxy.startswith("https") or proxy.startswith("http")) else None
+    proxies = (
+        {"https": proxy, "http": proxy}
+        if proxy and (proxy.startswith("https") or proxy.startswith("http"))
+        else None
+    )
 
     start = 0
     fetched_results = 0  # Keep track of the total fetched results
 
     while fetched_results < num_results:
         # Send request
-        resp = _req(term, num_results - start,
-                    lang, start, proxies, timeout, safe, ssl_verify, region)
+        resp = _req(
+            term,
+            num_results - start,
+            lang,
+            start,
+            proxies,
+            timeout,
+            safe,
+            ssl_verify,
+            region,
+        )
 
         # Parse
         soup = BeautifulSoup(resp.text, "html.parser")
@@ -69,17 +102,20 @@ def search(term, num_results=10, lang="en", proxy=None, advanced=False, sleep_in
         new_results = 0  # Keep track of new results in this iteration
 
         for result in result_block:
+            LOG.info(f"Result: {result}")
             # Find link, title, description
             link = result.find("a", href=True)
             title = result.find("h3")
             description_box = result.find("div", {"style": "-webkit-line-clamp:2"})
+            favicon_tag = result.find("img")
+            favicon = favicon_tag["src"] if favicon_tag else None
 
             if link and title and description_box:
                 description = description_box.text
                 fetched_results += 1
                 new_results += 1
                 if advanced:
-                    yield SearchResult(link["href"], title.text, description)
+                    yield SearchResult(link["href"], title.text, description, favicon)
                 else:
                     yield link["href"]
 

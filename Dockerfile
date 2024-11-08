@@ -31,9 +31,9 @@ COPY --from=pybuilder /usr/local/lib/python3.10/site-packages /usr/local/lib/pyt
 COPY --from=pybuilder /usr/local/bin /usr/local/bin
 
 # Copy the application files from builder stage
-COPY --from=pybuilder /project/app /project/app
+COPY --from=pybuilder /project/app /project/
 
 EXPOSE 8000
-WORKDIR /project/app
+WORKDIR /project/
 
 CMD ["pdm", "run", "python", "-m", "uvicorn", "api.chrome_ext_thon:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
