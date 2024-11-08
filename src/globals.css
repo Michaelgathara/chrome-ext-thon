@@ -12,6 +12,15 @@
   --gemini-purple: #9a8cf6;
 }
 
+* {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
 html {
   background-color: var(--background-color);
   color: white;
