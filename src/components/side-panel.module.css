@@ -13,6 +13,8 @@
 
   max-height: 50rem;
   overflow-y: auto;
+
+  border-radius: 5px;
 }
 
 .loaderContainer {
