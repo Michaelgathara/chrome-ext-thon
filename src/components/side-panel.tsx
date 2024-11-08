@@ -140,7 +140,9 @@ const SidePanel: React.FC = () => {
           />
         </div>
         <p className={classes.recommendedPages}>
-          Visit a website or allow access to site to get started.
+          {isLoading
+            ? "Currently loading recommendations."
+            : "Visit a website or allow access to site to get started."}
         </p>
       </div>
     );
