@@ -43,3 +43,11 @@
     background-position: right -50px top 0;
   }
 }
+
+.recommendedPages {
+  margin-top: 0.125rem;
+}
+
+.header {
+  text-align: center;
+}

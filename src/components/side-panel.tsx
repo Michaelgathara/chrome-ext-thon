@@ -121,23 +121,27 @@ const SidePanel: React.FC = () => {
     );
   };
 
-  const SidePanelHeader = () => {
+  const SidePanelHeader = ({ className }: { className: string }) => {
     return searchResults?.length > 0 ? (
-      <>
+      <div className={className}>
         <h1>Recommended Pages</h1>
-        <p>Gemini has recommended these pages for you.</p>
-      </>
+        <p className={classes.recommendedPages}>
+          Gemini has recommended these pages for you.
+        </p>
+      </div>
     ) : (
-      <>
+      <div className={className}>
         <h1>Gemini Search</h1>
-        <p>Visit a website or allow access to site to get started.</p>
-      </>
+        <p className={classes.recommendedPages}>
+          Visit a website or allow access to site to get started.
+        </p>
+      </div>
     );
   };
 
   return (
     <div className={classes.sidePanel}>
-      <SidePanelHeader />
+      <SidePanelHeader className={classes.header} />
       <hr className={classes.separator} />
       <SidePanelContent />
       {showPopup && (

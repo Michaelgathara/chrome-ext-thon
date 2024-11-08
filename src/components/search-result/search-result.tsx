@@ -64,15 +64,17 @@ export const SearchResult = ({
           </Tooltip>
         )}
       </div>
-      <p>{description}</p>
-      <a target="_blank" rel="noreferrer" href={url}>
+      <p className={classes.description}>{description}</p>
+      <a className={classes.url} target="_blank" rel="noreferrer" href={url}>
         {url}
       </a>
       {summary && (
         <>
           <hr className={classes.summarySeparator} />
-          {summary.split('\n').map((line, index) => (
-            <p key={index}>{line}</p>
+          {summary.split("\n").map((line, index) => (
+            <p className={classes.summary} key={index}>
+              {line}
+            </p>
           ))}
         </>
       )}
