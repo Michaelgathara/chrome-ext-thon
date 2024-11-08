@@ -6,6 +6,8 @@ from googlesearch import (
     SearchResult,
     search,
 )  # this is actually a wrapper for beautifulsoup and requests
+
+# From api.chrome_ext_thon had some errors. Removing for testing
 from api.chrome_ext_thon.models import GoogleSearchResult
 from api.chrome_ext_thon.configs import (
     SEARCH_SYSTEM_PROMPT,

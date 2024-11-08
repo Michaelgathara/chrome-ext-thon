@@ -6,6 +6,7 @@ import logging
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+# From api.chrome_ext_thon had some errors. Removing for testing
 from api.chrome_ext_thon.models import Search, Summarize
 from api.chrome_ext_thon.utils import google_search, summarize_page
 
