@@ -1,5 +1,8 @@
 .sidePanel {
   background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .sidePanel h1 {
@@ -82,40 +85,16 @@
 }
 
 .summary {
-  border: 2px solid transparent;
+  height: auto;
   padding: 0.75rem;
-  border-image-source: linear-gradient(
+  border-radius: 0.5rem;
+  background-image: linear-gradient(
     to bottom,
-    var(--google-blue),
-    var(--gemini-purple)
+    var(--google-blue-transparent),
+    var(--gemini-purple-transparent)
   );
-  border-image-slice: 1;
   margin-top: 1rem;
-  animation: borderGradientMove 3s linear infinite;
-}
-
-@keyframes borderGradientMove {
-  0% {
-    border-image-source: linear-gradient(
-      to bottom,
-      var(--google-blue),
-      var(--gemini-purple)
-    );
-  }
-  50% {
-    border-image-source: linear-gradient(
-      to top,
-      var(--gemini-purple),
-      var(--google-blue)
-    );
-  }
-  100% {
-    border-image-source: linear-gradient(
-      to bottom,
-      var(--google-blue),
-      var(--gemini-purple)
-    );
-  }
+  box-shadow: 0 0 4px #ffffff50;
 }
 
 .summary ul {

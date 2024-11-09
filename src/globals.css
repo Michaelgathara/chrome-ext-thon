@@ -9,7 +9,9 @@
   --google-red: #ea4335;
   --google-blue: #4285f4;
   --google-blue-opaque: #4285f410;
+  --google-blue-transparent: #4285f475;
   --gemini-purple: #9a8cf6;
+  --gemini-purple-transparent: #9a8cf675;
 }
 
 * {
@@ -24,14 +26,20 @@
 html {
   background-color: var(--background-color);
   color: white;
+  height: 100%;
 }
 
 body {
   font-family: "DM Sans", sans-serif;
+  height: 100%;
 }
 
 body::-webkit-scrollbar {
   display: none;
+}
+
+#root {
+  height: 100%;
 }
 
 .separator {
