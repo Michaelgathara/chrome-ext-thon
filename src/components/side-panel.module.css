@@ -105,3 +105,7 @@
 .summary li {
   margin-bottom: 0.25rem;
 }
+
+.separator {
+  width: 100%;
+}
