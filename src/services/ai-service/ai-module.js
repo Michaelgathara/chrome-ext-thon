@@ -1,6 +1,6 @@
 import { SEARCH_PROMPT, SUMMARIZE_PROMPT } from "./prompts";
 
-export async function prompt(prompt, customPrompt = SEARCH_PROMPT) {
+export async function prompt(prompt, systemPrompt = SEARCH_PROMPT) {
   const maxRetries = 10; // Maximum number of retries
   let attempt = 0; // Current attempt count
 
@@ -11,9 +11,16 @@ export async function prompt(prompt, customPrompt = SEARCH_PROMPT) {
 
       if (available !== "no") {
         console.log("creating session");
-        const session = await ai.languageModel.create();
+        const session = await ai.languageModel.create({systemPrompt: systemPrompt});
+
         console.log("prompting session");
-        const result = await session.prompt(`${customPrompt}${prompt}`);
+        console.log("prompt", prompt);
+        const result = await session.prompt(prompt);
+
+
+        console.log("result", result);
+        await session.destroy();
+
         return result;
       } else {
         console.warn("Language model is not available.");
@@ -29,7 +36,7 @@ export async function prompt(prompt, customPrompt = SEARCH_PROMPT) {
   }
 }
 
-export async function summarize(content) {
+export async function summarize(content, systemPrompt = SUMMARIZE_PROMPT) {
   content = content.slice(0, 2000);
   const canSummarize = await ai.summarizer.capabilities();
   let summarizer;
@@ -38,7 +45,9 @@ export async function summarize(content) {
     if (canSummarize.available === "readily") {
       console.log("readily available");
       summarizer = await ai.summarizer.create();
-      return await summarizer.summarize(SUMMARIZE_PROMPT + content);
+      const result = await summarizer.summarize(systemPrompt + content);
+      await summarizer.destroy();
+      return result;
     } else {
       console.log("not readily available");
       summarizer = await ai.summarizer.create();
@@ -47,7 +56,9 @@ export async function summarize(content) {
       });
       await summarizer.ready;
       console.log("summarizer ready");
-      return await summarizer.summarize(SUMMARIZE_PROMPT + content);
+      const result = await summarizer.summarize(systemPrompt + content);
+      await summarizer.destroy();
+      return result;
     }
   } else {
     // The summarizer can't be used at all.

@@ -16,7 +16,7 @@ const SidePanel: React.FC = () => {
   const [currentDomain, setCurrentDomain] = useState<string>("");
   const [domainList, setDomainList] = useState<string[]>([]);
   const [webpagesSummary, setWebpagesSummary] = useState<string>("");
-  const [newsBias, setNewsBias] = useState<BiasRating | null>(null);
+  const [newsBias, setNewsBias] = useState<string | null>(null);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -30,8 +30,14 @@ const SidePanel: React.FC = () => {
     const signal = controller.signal;
 
     const { collectData } = await chrome.storage.sync.get("collectData");
-    const { currentDomain, domainList, shouldScan, showPopup, isGoogle, isNews } =
-      await checkDomainAndPrompt();
+    const {
+      currentDomain,
+      domainList,
+      shouldScan,
+      showPopup,
+      isGoogle,
+      isNews,
+    } = await checkDomainAndPrompt();
 
     if (!collectData) {
       setShowPopup(showPopup);
@@ -43,18 +49,16 @@ const SidePanel: React.FC = () => {
       setWebpagesSummary("");
     }
 
-    if (isNews) {
-      const biasRating = NewsBiasService.getBiasRating(currentDomain);
-      console.log("Found News Site with bias of: " + biasRating);
-      setNewsBias(biasRating);
-    } else {
-      setNewsBias(null);
-    }
-
     if ((shouldScan || collectData) && !isGoogle) {
       setIsLoading(true);
       const content = await grabContent();
-      const query = await aiService.prompt(content.slice(0, 2000));
+
+      const contentSlice = content.slice(
+        Math.max(0, Math.floor(content.length / 2) - 1000),
+        Math.min(content.length, Math.floor(content.length / 2) + 1000)
+      );
+
+      const query = await aiService.prompt(contentSlice);
 
       try {
         const results = await ApiService.search(query!, signal);
@@ -68,8 +72,19 @@ const SidePanel: React.FC = () => {
         );
 
         const summary = await aiService.summarizeContent(compiledDescription);
-
         setWebpagesSummary(summary);
+
+        if (isNews) {
+          const biasRating = await NewsBiasService.getAIBiasRating(
+            content,
+            currentDomain
+          );
+          console.log("Found News Site with bias of: " + biasRating);
+          setNewsBias(biasRating);
+        } else {
+          setNewsBias(null);
+        }
+
         setIsLoading(false);
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") {
@@ -162,8 +177,10 @@ const SidePanel: React.FC = () => {
         <h1>Recommended Pages</h1>
         {newsBias && (
           <div className={classes.newsBias}>
-            <p>{newsBias.name} Source Bias: {newsBias.bias}</p>
-            <p>Reliability Score: {newsBias.reliability}/10</p>
+            <p>
+              {currentDomain} Source Bias: {newsBias}
+            </p>
+            {/* <p>Reliability Score: {newsBias.reliability}/10</p>
             {/* <p>Desc: {newsBias.description}</p> */}
           </div>
         )}

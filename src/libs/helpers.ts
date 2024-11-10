@@ -9,10 +9,12 @@ export const grabContent = async (): Promise<string> => {
             func: () => {
               return new Promise<string>((resolve) => {
                 if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                  resolve(document.body.innerText);
+                  const mainElement = document.querySelector('main');
+                  resolve(mainElement ? mainElement.innerText : '');
                 } else {
                   window.addEventListener('DOMContentLoaded', () => {
-                    resolve(document.body.innerText);
+                    const mainElement = document.querySelector('main');
+                    resolve(mainElement ? mainElement.innerText : '');
                   });
                 }
               });
