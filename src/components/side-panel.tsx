@@ -5,7 +5,9 @@ import classes from "./side-panel.module.css";
 import { ApiService } from "../services/api-service";
 import { ScanPopup } from "./scan-popup";
 import { aiService } from "../services/ai-service";
+import { NewsBiasService } from "./news-sites/news-bias";
 import ReactMarkdown from "react-markdown";
+import { BiasRating } from "./news-sites/news-bias-list";
 
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -14,6 +16,7 @@ const SidePanel: React.FC = () => {
   const [currentDomain, setCurrentDomain] = useState<string>("");
   const [domainList, setDomainList] = useState<string[]>([]);
   const [webpagesSummary, setWebpagesSummary] = useState<string>("");
+  const [newsBias, setNewsBias] = useState<BiasRating | null>(null);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -27,7 +30,7 @@ const SidePanel: React.FC = () => {
     const signal = controller.signal;
 
     const { collectData } = await chrome.storage.sync.get("collectData");
-    const { currentDomain, domainList, shouldScan, showPopup, isGoogle } =
+    const { currentDomain, domainList, shouldScan, showPopup, isGoogle, isNews } =
       await checkDomainAndPrompt();
 
     if (!collectData) {
@@ -38,6 +41,14 @@ const SidePanel: React.FC = () => {
 
     if (!shouldScan || !collectData || isGoogle) {
       setWebpagesSummary("");
+    }
+
+    if (isNews) {
+      const biasRating = NewsBiasService.getBiasRating(currentDomain);
+      console.log("Found News Site with bias of: " + biasRating);
+      setNewsBias(biasRating);
+    } else {
+      setNewsBias(null);
     }
 
     if ((shouldScan || collectData) && !isGoogle) {
@@ -149,6 +160,12 @@ const SidePanel: React.FC = () => {
     return !isLoading && searchResults?.length > 0 ? (
       <div className={className}>
         <h1>Recommended Pages</h1>
+        {newsBias && (
+          <div className={classes.newsBias}>
+            <p>{newsBias.name} Source Bias: {newsBias.bias}</p>
+            <p>Reliability Score: {newsBias.reliability}/10</p>
+          </div>
+        )}
         <p className={classes.recommendedPages}>
           Gemini has recommended these pages for you.
         </p>
