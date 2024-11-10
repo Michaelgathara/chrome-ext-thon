@@ -164,6 +164,7 @@ const SidePanel: React.FC = () => {
           <div className={classes.newsBias}>
             <p>{newsBias.name} Source Bias: {newsBias.bias}</p>
             <p>Reliability Score: {newsBias.reliability}/10</p>
+            {/* <p>Desc: {newsBias.description}</p> */}
           </div>
         )}
         <p className={classes.recommendedPages}>

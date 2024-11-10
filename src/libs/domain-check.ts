@@ -1,4 +1,4 @@
-
+import { newsSites } from "../components/news-sites/news-bias-list"
 export const checkDomainAndPrompt = async (): Promise<{
   currentDomain: string;
   domainList: string[];
@@ -8,29 +8,6 @@ export const checkDomainAndPrompt = async (): Promise<{
   isGoogle: boolean;
   isNews: boolean;
 }> => {
-  const newsSites = [
-    'cnn.com',
-    'foxnews.com',
-    'nytimes.com',
-    'washingtonpost.com',
-    'reuters.com',
-    'apnews.com',
-    'nbcnews.com',
-    'cbsnews.com',
-    'abcnews.go.com',
-    'bbc.com',
-    'theguardian.com',
-    'wsj.com',
-    'bloomberg.com',
-    'huffpost.com',
-    'usatoday.com',
-    'politico.com',
-    'thehill.com',
-    'npr.org',
-    'breitbart.com',
-    'dailymail.co.uk'
-  ];
-
   return new Promise((resolve) => {
     console.log("Checking domain and prompting...");
     // Get the current tab's URL
