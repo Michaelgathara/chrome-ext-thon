@@ -12,6 +12,11 @@
   --google-blue-transparent: #4285f475;
   --gemini-purple: #9a8cf6;
   --gemini-purple-transparent: #9a8cf675;
+  --news-bias-left: #1100ff50;
+  --news-bias-right: #ff000050;
+  --news-bias-center: #252835ad;
+  --news-bias-left-center: #53bbf78f;
+  --news-bias-right-center: #ff79798f;
 }
 
 * {

@@ -115,6 +115,12 @@
   background-color: var(--background-color);
 }
 
+.newsBias span {
+  border-radius: 4px;
+  padding: 4px;
+  width: fit-content;
+}
+
 .biasDetails {
   margin-top: 12px;
 }
@@ -129,11 +135,21 @@
   margin-top: 4px;
 }
 
-.left { background: linear-gradient(to right, #3498db, #2980b9); }
-.center-left { background: linear-gradient(to right, #2980b9, #95a5a6); }
-.center { background: #393f3f; }
-.center-right { background: linear-gradient(to right, #95a5a6, #e74c3c); }
-.right { background: linear-gradient(to right, #e74c3c, #c0392b); }
+.left {
+  background: linear-gradient(to right, #3498db, #2980b9);
+}
+.center-left {
+  background: linear-gradient(to right, #2980b9, #95a5a6);
+}
+.center {
+  background: #393f3f;
+}
+.center-right {
+  background: linear-gradient(to right, #95a5a6, #e74c3c);
+}
+.right {
+  background: linear-gradient(to right, #e74c3c, #c0392b);
+}
 
 .reliabilityScore {
   margin: 8px 0;

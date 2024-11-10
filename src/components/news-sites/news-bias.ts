@@ -2,6 +2,14 @@ import { aiService } from "../../services/ai-service";
 import { newsBiasData, BiasRating } from "./news-bias-list";
 import { NEWS_BIAS_PROMPT } from "../../services/ai-service/prompts";
 
+export const BIAS_TO_COLOR = {
+  "center-left": "var(--news-bias-left-center)",
+  "center-right": "var(--news-bias-right-center)",
+  left: "var(--news-bias-left)",
+  right: "var(--news-bias-right)",
+  center: "var(--news-bias-center)",
+};
+
 export const NewsBiasService = {
   isNewsSource(domain: string): boolean {
     return Object.keys(newsBiasData).some((news) => domain.includes(news));
@@ -14,8 +22,8 @@ export const NewsBiasService = {
     return newsSource ? newsBiasData[newsSource] : null;
   },
   getAIBiasRating(pageContent: string, domain: string): Promise<string> {
-    const start = Math.max(0, Math.floor((pageContent.length - 2000) / 2));
-    const end = start + 2000;
+    const start = Math.max(0, Math.floor((pageContent.length - 3500) / 2));
+    const end = start + 3500;
     const contentSlice = pageContent.slice(start, end);
 
     const prompt = `

@@ -7,7 +7,7 @@ import { ScanPopup } from "./scan-popup";
 import { aiService } from "../services/ai-service";
 import { NewsBiasService } from "./news-sites/news-bias";
 import ReactMarkdown from "react-markdown";
-import { BiasRating } from "./news-sites/news-bias-list";
+import { BIAS_TO_COLOR } from "./news-sites/news-bias";
 
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -178,7 +178,17 @@ const SidePanel: React.FC = () => {
         {newsBias && (
           <div className={classes.newsBias}>
             <p>
-              {currentDomain} Source Bias: {newsBias}
+              {currentDomain} Source Bias:{" "}
+              <span
+                style={{
+                  backgroundColor:
+                    BIAS_TO_COLOR[
+                      newsBias.toLowerCase() as keyof typeof BIAS_TO_COLOR
+                    ],
+                }}
+              >
+                {newsBias}
+              </span>
             </p>
             {/* <p>Reliability Score: {newsBias.reliability}/10</p>
             {/* <p>Desc: {newsBias.description}</p> */}
