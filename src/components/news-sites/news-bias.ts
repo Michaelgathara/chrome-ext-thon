@@ -5,9 +5,9 @@ import { NEWS_BIAS_PROMPT } from "../../services/ai-service/prompts";
 export const BIAS_TO_COLOR = {
   "center-left": "var(--news-bias-left-center)",
   "center-right": "var(--news-bias-right-center)",
-  left: "var(--news-bias-left)",
-  right: "var(--news-bias-right)",
-  center: "var(--news-bias-center)",
+  "left": "var(--news-bias-left)",
+  "right": "var(--news-bias-right)",
+  "center": "var(--news-bias-center)",
 };
 
 export const NewsBiasService = {
