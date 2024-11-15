@@ -10,6 +10,12 @@ export const BIAS_TO_COLOR = {
   "center": "var(--news-bias-center)",
 };
 
+function stripNonEnglishCharacters(input: string): string {
+  // Testing to see if non-english text inside the text is messing with our output
+  // This gives more successes but not always guranteed
+  return input.replace(/[^a-zA-Z\s]/g, ''); 
+};
+
 export const NewsBiasService = {
   isNewsSource(domain: string): boolean {
     return Object.keys(newsBiasData).some((news) => domain.includes(news));
@@ -22,6 +28,7 @@ export const NewsBiasService = {
     return newsSource ? newsBiasData[newsSource] : null;
   },
   getAIBiasRating(pageContent: string, domain: string): Promise<string> {
+    pageContent = stripNonEnglishCharacters(pageContent);
     const start = Math.max(0, Math.floor((pageContent.length - 3500) / 2));
     const end = start + 3500;
     const contentSlice = pageContent.slice(start, end);

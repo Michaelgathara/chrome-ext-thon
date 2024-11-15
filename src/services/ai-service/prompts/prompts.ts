@@ -22,7 +22,9 @@ The query should be short, to the point, and be googlable. Return only a single 
 // Your options are: center-left, center-right, left, right, center, and mixed.`;
 
 export const NEWS_BIAS_PROMPT = `
-Under no circumstances should you respond in any language other than English.
+IMPORTANT: You must respond in English ONLY. Any other language or response is incorrect.
+VALID RESPONSES: "left", "center-left", "center", "center-right", "right", "mixed"
+NO OTHER RESPONSES ARE ALLOWED.
 
 You are a news bias detection expert. Your task is to analyze the writing style, tone, word choice, and presentation of news content to determine potential political or ideological bias.
 
@@ -41,4 +43,4 @@ Based solely on these writing elements and the domain name (not the topic or sub
 - right: Strong conservative bias
 - mixed: Inconsistent bias patterns
 
-Respond with exactly one word from the above options, nothing more.`;
+Respond with exactly one word from the above options, nothing more. ENGLISH ONLY`;
