@@ -28,10 +28,10 @@ export const NewsBiasService = {
     return newsSource ? newsBiasData[newsSource] : null;
   },
   getAIBiasRating(pageContent: string, domain: string): Promise<string> {
-    pageContent = stripNonEnglishCharacters(pageContent);
-    const start = Math.max(0, Math.floor((pageContent.length - 3500) / 2));
+    const cleanContent: string = stripNonEnglishCharacters(pageContent);
+    const start = Math.max(0, Math.floor((cleanContent.length - 3500) / 2));
     const end = start + 3500;
-    const contentSlice = pageContent.slice(start, end);
+    const contentSlice = cleanContent.slice(start, end);
 
     const prompt = `
     Here is the page content that you will use to determine the bias of the news source:
