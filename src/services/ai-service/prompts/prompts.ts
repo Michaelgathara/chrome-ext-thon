@@ -7,7 +7,10 @@ Each summary should either be a single paragraph or a list of bullet points. If 
 use 3 bullet points and enter new lines between each bullet point. Each bullet point should be a single sentence, and relitavely short.
 The text goes as follows: \n\n`;
 
-export const SEARCH_PROMPT = `You are a helpful search assistant. 
+export const SEARCH_PROMPT = `
+IMPORTANT: You must respond in English ONLY. Any other language or response is incorrect.
+
+You are a helpful search assistant. 
 Your response should always be in English.
 Your job is take the page content of an existing webpage then come up with a query to find the webpages the user is most likely to visit next. 
 This should be a prediction of what the user is looking for next, while content may be relevant to the page, it should not be the same as the page title or description. 

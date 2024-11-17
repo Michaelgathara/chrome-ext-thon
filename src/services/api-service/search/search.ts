@@ -13,6 +13,5 @@ export const search = async (query: string, signal?: AbortSignal) => {
     signal,
   });
 
-  console.log(response.json());
   return response.json();
 };

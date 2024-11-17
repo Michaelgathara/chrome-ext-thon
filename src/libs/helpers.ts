@@ -40,11 +40,15 @@ export function stripNonEnglishCharacters(input: string): string {
   return input.replace(/[^a-zA-Z\s]/g, "");
 }
 
-export const sliceContent = (content: string) => {
-  return content.slice(
-    Math.max(0, Math.floor(content.length / 2) - 2000),
-    Math.min(content.length, Math.floor(content.length / 2) + 2000)
-  );
+export const sliceContent = (content: string, sliceMiddle: boolean = false) => {
+  if (sliceMiddle) {
+    return content.slice(
+      Math.max(0, Math.floor(content.length / 2) - 2000),
+      Math.min(content.length, Math.floor(content.length / 2) + 2000)
+    );
+  }
+
+  return content.slice(0, 2000);
 };
 
 type SearchResult = {
