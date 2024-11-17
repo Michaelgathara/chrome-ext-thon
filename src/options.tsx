@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Options } from "./components/options";
+import Options from "./components/options";
 import "./globals.css";
 
 ReactDOM.render(
