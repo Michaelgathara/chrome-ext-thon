@@ -1,15 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { checkDomainAndPrompt, extensionHandler, grabContent } from "../libs";
+import { extensionHandler } from "../libs";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
-import { ApiService } from "../services/api-service";
 import { ScanPopup } from "./scan-popup";
-import { aiService } from "../services/ai-service";
-import { NewsBiasService } from "./news-sites/news-bias";
 import ReactMarkdown from "react-markdown";
-import { BIAS_TO_COLOR } from "./news-sites/news-bias";
-import { chromeService } from "../services/chrome-service";
-
+import { BIAS_TO_COLOR } from "../services/news-service/data";
+import { runScan } from "./helpers";
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,95 +14,23 @@ const SidePanel: React.FC = () => {
   const [domainList, setDomainList] = useState<string[]>([]);
   const [webpagesSummary, setWebpagesSummary] = useState<string>("");
   const [newsBias, setNewsBias] = useState<string | null>(null);
-
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const runScan = async () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-    const signal = controller.signal;
-
-    const { collectData } = await chrome.storage.sync.get("collectData");
-    const { newsSiteIntegration } = await chrome.storage.sync.get(
-      "newsSiteIntegration"
+  const handleScan = async () => {
+    await runScan(
+      abortControllerRef,
+      setIsLoading,
+      setShowPopup,
+      setDomainList,
+      setCurrentDomain,
+      setWebpagesSummary,
+      setNewsBias,
+      setSearchResults
     );
-
-    console.log(collectData, newsSiteIntegration);
-
-    const {
-      currentDomain,
-      domainList,
-      shouldScan,
-      showPopup,
-      isGoogle,
-      isNews,
-    } = await checkDomainAndPrompt();
-
-    if (!collectData) {
-      setShowPopup(showPopup);
-      setDomainList(domainList);
-      setCurrentDomain(currentDomain);
-    }
-
-    if (!shouldScan || !collectData || isGoogle) {
-      setWebpagesSummary("");
-    }
-
-    if ((shouldScan || collectData) && !isGoogle) {
-      setIsLoading(true);
-      const content = await grabContent();
-
-      const contentSlice = content.slice(
-        Math.max(0, Math.floor(content.length / 2) - 1000),
-        Math.min(content.length, Math.floor(content.length / 2) + 1000)
-      );
-
-      const query = await aiService.prompt(contentSlice);
-
-      try {
-        const results = await ApiService.search(query!, signal);
-        setSearchResults(results.searchResults);
-        console.log(results.searchResults);
-        const compiledDescription = results.searchResults.reduce(
-          (acc: string, result: any) => {
-            return acc + result.description + "\n";
-          },
-          ""
-        );
-
-        const summary = await aiService.summarizeContent(compiledDescription);
-        setWebpagesSummary(summary);
-
-        if (newsSiteIntegration && isNews) {
-          const biasRating = await NewsBiasService.getAIBiasRating(
-            content,
-            currentDomain
-          );
-          console.log("Found News Site with bias of: " + biasRating);
-          setNewsBias(biasRating);
-        } else {
-          setNewsBias(null);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
-          // Request was aborted, no need to log
-        } else {
-          console.error("Search request failed", error);
-          setIsLoading(false);
-        }
-      }
-      
-    }
   };
 
   useEffect(() => {
-    extensionHandler(runScan, setSearchResults);
+    extensionHandler(handleScan, setSearchResults);
   }, []);
 
   const SidePanelContent = () => {
@@ -201,7 +125,7 @@ const SidePanel: React.FC = () => {
         <ScanPopup
           currentDomain={currentDomain}
           domainList={domainList}
-          onConfirm={runScan}
+          onConfirm={handleScan}
           setShowPopup={setShowPopup}
         />
       )}

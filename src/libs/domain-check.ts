@@ -1,4 +1,5 @@
-import { newsSites } from "../components/news-sites/news-bias-list"
+import { newsService } from "../services/news-service";
+
 export const checkDomainAndPrompt = async (): Promise<{
   currentDomain: string;
   domainList: string[];
@@ -16,7 +17,7 @@ export const checkDomainAndPrompt = async (): Promise<{
       console.log("Current domain:", currentDomain);
       const currentUrl = tabs[0].url || "";
 
-      const isNews = newsSites.some(site => currentDomain.includes(site));
+      const isNews = newsService.isNewsSource(currentDomain);
 
       // Check if the URL is one of Chrome's internal pages
       if (

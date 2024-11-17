@@ -39,3 +39,20 @@ export function stripNonEnglishCharacters(input: string): string {
   // This gives more successes but not always guranteed
   return input.replace(/[^a-zA-Z\s]/g, "");
 }
+
+export const sliceContent = (content: string) => {
+  return content.slice(
+    Math.max(0, Math.floor(content.length / 2) - 2000),
+    Math.min(content.length, Math.floor(content.length / 2) + 2000)
+  );
+};
+
+type SearchResult = {
+  description: string;
+};
+
+export const compileContent = (content: SearchResult[]) => {
+  return content.reduce((acc, curr) => {
+    return acc + curr.description + "\n";
+  }, "");
+};

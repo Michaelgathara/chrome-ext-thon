@@ -12,5 +12,7 @@ export const search = async (query: string, signal?: AbortSignal) => {
     body: JSON.stringify(requestBody),
     signal,
   });
+
+  console.log(response.json());
   return response.json();
 };
