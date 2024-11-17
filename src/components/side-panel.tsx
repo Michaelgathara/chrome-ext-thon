@@ -8,6 +8,8 @@ import { aiService } from "../services/ai-service";
 import { NewsBiasService } from "./news-sites/news-bias";
 import ReactMarkdown from "react-markdown";
 import { BIAS_TO_COLOR } from "./news-sites/news-bias";
+import { chromeService } from "../services/chrome-service/chrome-service";
+import { handleTabUpdate } from "../services/chrome-service/functions";
 
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -105,38 +107,22 @@ const SidePanel: React.FC = () => {
 
   useEffect(() => {
     // Run once when the sidebar opens
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const currentTab = tabs[0];
-      if (currentTab?.url) {
-        runScan();
-      }
-    });
+    chromeService.handleTabOpen(runScan);
 
-    // Listen for tab changes
-    const handleTabChange = async (activeInfo: chrome.tabs.TabActiveInfo) => {
-      setSearchResults([]);
-      chrome.tabs.get(activeInfo.tabId, (tab) => {
-        if (tab.url) {
-          runScan();
-        }
-      });
+    const tabUpdateListener = async (tabId: number) => {
+      chromeService.handleTabUpdate(tabId, setSearchResults, runScan);
     };
 
-    const handleTabUpdate = async (tabId: number) => {
-      setSearchResults([]);
-      chrome.tabs.get(tabId, (tab) => {
-        if (tab.url) {
-          runScan();
-        }
-      });
+    const tabChangeListener = async (activeInfo: chrome.tabs.TabActiveInfo) => {
+      chromeService.handleTabChange(activeInfo, setSearchResults, runScan);
     };
 
-    chrome.tabs.onUpdated.addListener(handleTabUpdate);
-    chrome.tabs.onActivated.addListener(handleTabChange);
+    chrome.tabs.onUpdated.addListener(tabUpdateListener);
+    chrome.tabs.onActivated.addListener(tabChangeListener);
 
     return () => {
-      chrome.tabs.onUpdated.removeListener(handleTabUpdate);
-      chrome.tabs.onActivated.removeListener(handleTabChange);
+      chrome.tabs.onUpdated.removeListener(tabUpdateListener);
+      chrome.tabs.onActivated.removeListener(tabChangeListener);
     };
   }, []);
 
