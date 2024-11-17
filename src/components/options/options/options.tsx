@@ -21,7 +21,6 @@ export const Options: React.FC = () => {
       const storedData = await chrome.storage.sync.get(
         OptionsData.map((option) => option.id)
       );
-      console.log(storedData);
 
       const newState = { ...state };
       OptionsData.forEach((option) => {
@@ -55,18 +54,23 @@ export const Options: React.FC = () => {
       <div className={classes.options}>
         {OptionsData.filter((option) => option.type === "boolean").map(
           (option) => (
-            <FormControlLabel
-              key={option.id}
-              control={
-                <Switch
-                  checked={state[option.id as keyof typeof state] as boolean}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setState({ ...state, [option.id]: e.target.checked })
-                  }
-                />
-              }
-              label={option.label}
-            />
+            <>
+              <FormControlLabel
+                key={option.id}
+                control={
+                  <Switch
+                    checked={state[option.id as keyof typeof state] as boolean}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setState({ ...state, [option.id]: e.target.checked })
+                    }
+                  />
+                }
+                label={option.label}
+              />
+              <Typography variant="body2" className={classes.description}>
+                {option.description}
+              </Typography>
+            </>
           )
         )}
       </div>
