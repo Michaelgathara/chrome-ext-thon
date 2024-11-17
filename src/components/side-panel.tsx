@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { checkDomainAndPrompt, grabContent } from "../libs";
+import { checkDomainAndPrompt, extensionHandler, grabContent } from "../libs";
 import { SearchResult } from "./search-result";
 import classes from "./side-panel.module.css";
 import { ApiService } from "../services/api-service";
@@ -8,8 +8,7 @@ import { aiService } from "../services/ai-service";
 import { NewsBiasService } from "./news-sites/news-bias";
 import ReactMarkdown from "react-markdown";
 import { BIAS_TO_COLOR } from "./news-sites/news-bias";
-import { chromeService } from "../services/chrome-service/chrome-service";
-import { handleTabUpdate } from "../services/chrome-service/functions";
+import { chromeService } from "../services/chrome-service";
 
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -102,28 +101,12 @@ const SidePanel: React.FC = () => {
           setIsLoading(false);
         }
       }
+      
     }
   };
 
   useEffect(() => {
-    // Run once when the sidebar opens
-    chromeService.handleTabOpen(runScan);
-
-    const tabUpdateListener = async (tabId: number) => {
-      chromeService.handleTabUpdate(tabId, setSearchResults, runScan);
-    };
-
-    const tabChangeListener = async (activeInfo: chrome.tabs.TabActiveInfo) => {
-      chromeService.handleTabChange(activeInfo, setSearchResults, runScan);
-    };
-
-    chrome.tabs.onUpdated.addListener(tabUpdateListener);
-    chrome.tabs.onActivated.addListener(tabChangeListener);
-
-    return () => {
-      chrome.tabs.onUpdated.removeListener(tabUpdateListener);
-      chrome.tabs.onActivated.removeListener(tabChangeListener);
-    };
+    extensionHandler(runScan, setSearchResults);
   }, []);
 
   const SidePanelContent = () => {
