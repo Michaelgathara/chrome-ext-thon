@@ -30,6 +30,12 @@ const SidePanel: React.FC = () => {
     const signal = controller.signal;
 
     const { collectData } = await chrome.storage.sync.get("collectData");
+    const { newsSiteIntegration } = await chrome.storage.sync.get(
+      "newsSiteIntegration"
+    );
+
+    console.log(collectData, newsSiteIntegration);
+
     const {
       currentDomain,
       domainList,
@@ -74,7 +80,7 @@ const SidePanel: React.FC = () => {
         const summary = await aiService.summarizeContent(compiledDescription);
         setWebpagesSummary(summary);
 
-        if (isNews) {
+        if (newsSiteIntegration && isNews) {
           const biasRating = await NewsBiasService.getAIBiasRating(
             content,
             currentDomain

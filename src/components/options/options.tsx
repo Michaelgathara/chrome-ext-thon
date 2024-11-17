@@ -8,15 +8,23 @@ import {
   Box,
   Chip,
 } from "@mui/material";
+import classes from "./options.module.css";
 
 export const Options: React.FC = () => {
   const [collectData, setCollectData] = useState<boolean>(false);
+  const [newsSiteIntegration, setNewsSiteIntegration] =
+    useState<boolean>(false);
   const [domainList, setDomainList] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchStoredData = async () => {
-      const result = await chrome.storage.sync.get("collectData");
-      setCollectData(result.collectData || false);
+      const { collectData } = await chrome.storage.sync.get("collectData");
+      const { newsSiteIntegration } = await chrome.storage.sync.get(
+        "newsSiteIntegration"
+      );
+
+      setCollectData(collectData || false);
+      setNewsSiteIntegration(newsSiteIntegration || false);
     };
 
     fetchStoredData();
@@ -29,9 +37,12 @@ export const Options: React.FC = () => {
   }, []);
 
   const handleSave = () => {
-    chrome.storage.sync.set({ collectData, domainList }, () => {
-      console.log("Settings saved");
-    });
+    chrome.storage.sync.set(
+      { collectData, domainList, newsSiteIntegration },
+      () => {
+        window.alert("Settings saved");
+      }
+    );
   };
 
   const handleDeleteDomain = (domain: string) => {
@@ -46,17 +57,31 @@ export const Options: React.FC = () => {
         Extension Options
       </Typography>
 
-      <FormControlLabel
-        control={
-          <Switch
-            checked={collectData}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setCollectData(e.target.checked)
-            }
-          />
-        }
-        label="Always collect data on page load"
-      />
+      <div className={classes.options}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={collectData}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCollectData(e.target.checked)
+              }
+            />
+          }
+          label="Always collect data on page load"
+        />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={newsSiteIntegration}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNewsSiteIntegration(e.target.checked)
+              }
+            />
+          }
+          label="Integrate with news sites"
+        />
+      </div>
 
       {!collectData && (
         <Box sx={{ mt: 2 }}>

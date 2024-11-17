@@ -9,3 +9,6 @@ up:
 
 down:
 	docker-compose down
+
+build-ext:
+	npm run build
