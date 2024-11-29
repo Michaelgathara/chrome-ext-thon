@@ -3,10 +3,12 @@ import os
 import logging
 
 # PDM
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.chrome_ext_thon.models import Search
-from api.chrome_ext_thon.utils import google_search, gemini
+# From api.chrome_ext_thon had some errors. Removing for testing
+from api.chrome_ext_thon.models import Search, Summarize
+from api.chrome_ext_thon.utils import google_search, summarize_page
 
 
 LOG_LEVEL = os.getenv("LOG_LEVEL") or "INFO"
@@ -32,18 +34,20 @@ app.add_middleware(
 
 @app.post("/api/search")
 async def search(search: Search):
-    LOG.info(f"Searching for {search.page_content}")
+    LOG.info(f"Searching for {search.query}")
     """
         TODO:
-        Get the page content 
-        Send it to gemini to generate a query
         Send the query to search to generate a json
         Send the json to frontend
     """
-    search_query = await gemini(user_prompt=search.page_content, use_case=2)
-    LOG.info(f"Generated search query: {search_query}")
+    search_results = await google_search(search.query)
+    return JSONResponse(
+        content={"searchResults": [res.model_dump() for res in search_results]}
+    )
 
-    search_results = await google_search(search_query)
-    return {
-        "searchResults": search_results
-    }
+
+@app.post("/api/summarize")
+async def short_summary(summary: Summarize):
+    LOG.info(f"Summarizing {summary.url}")
+    content = await summarize_page(summary.url)
+    return JSONResponse(content={"content": content})

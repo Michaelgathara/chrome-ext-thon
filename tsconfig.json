@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "strict": true,
     "target": "es6",
-    "moduleResolution": "bundler",
-    "module": "ES6",
+    "moduleResolution": "node",
+    "module": "ESNext",
     "esModuleInterop": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "rootDir": "src",
     "outDir": "dist/js",
     "noEmitOnError": true,
-    "jsx": "react",
-    "typeRoots": ["node_modules/@types"]
-  }
+    "jsx": "react-jsx",
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
 }

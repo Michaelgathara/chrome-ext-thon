@@ -1,8 +1,13 @@
+import { newsService } from "../services/news-service";
+
 export const checkDomainAndPrompt = async (): Promise<{
   currentDomain: string;
   domainList: string[];
   shouldScan: boolean;
   showPopup: boolean;
+  currentUrl: string;
+  isGoogle: boolean;
+  isNews: boolean;
 }> => {
   return new Promise((resolve) => {
     console.log("Checking domain and prompting...");
@@ -11,6 +16,8 @@ export const checkDomainAndPrompt = async (): Promise<{
       const currentDomain = new URL(tabs[0].url || "").hostname; // Extract the hostname from the URL
       console.log("Current domain:", currentDomain);
       const currentUrl = tabs[0].url || "";
+
+      const isNews = newsService.isNewsSource(currentDomain);
 
       // Check if the URL is one of Chrome's internal pages
       if (
@@ -23,6 +30,9 @@ export const checkDomainAndPrompt = async (): Promise<{
           domainList: [],
           shouldScan: false,
           showPopup: false,
+          currentUrl,
+          isGoogle: true,
+          isNews: false,
         });
         return;
       }
@@ -39,6 +49,9 @@ export const checkDomainAndPrompt = async (): Promise<{
             domainList,
             shouldScan: true,
             showPopup: false,
+            currentUrl,
+            isGoogle: false,
+            isNews,
           });
         } else {
           resolve({
@@ -46,6 +59,9 @@ export const checkDomainAndPrompt = async (): Promise<{
             domainList,
             shouldScan: false,
             showPopup: true,
+            currentUrl,
+            isGoogle: false,
+            isNews,
           });
         }
       });

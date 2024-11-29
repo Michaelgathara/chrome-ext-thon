@@ -8,19 +8,43 @@
   --google-green: #34a853;
   --google-red: #ea4335;
   --google-blue: #4285f4;
+  --google-blue-opaque: #4285f410;
+  --google-blue-transparent: #4285f475;
+  --gemini-purple: #9a8cf6;
+  --gemini-purple-transparent: #9a8cf675;
+  --news-bias-left: #1100ff50;
+  --news-bias-right: #ff000050;
+  --news-bias-center: #252835ad;
+  --news-bias-left-center: #53bbf78f;
+  --news-bias-right-center: #ff79798f;
+}
+
+* {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
 }
 
 html {
   background-color: var(--background-color);
   color: white;
+  height: 100%;
 }
 
 body {
   font-family: "DM Sans", sans-serif;
+  height: 100%;
 }
 
 body::-webkit-scrollbar {
   display: none;
+}
+
+#root {
+  height: 100%;
 }
 
 .separator {

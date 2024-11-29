@@ -1,7 +1,66 @@
 .searchResult {
   background-color: var(--accent-background-color);
+  box-shadow: 0px 4px 8px var(--google-blue-opaque);
+
   border-radius: 0.5rem;
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchResult img {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  margin-top: 0.25rem;
+  margin-right: 0.25rem;
+  margin-left: 0.75rem;
+}
+
+.searchResultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchResultHeader h3 {
+  margin-bottom: 0.25rem;
+}
+
+.description {
+  margin-top: 0.125rem;
+}
+
+/* TODO: Figure out rounded, animated, and gradient border - all around the search result */
+.highlighted {
+  position: relative;
+  border-radius: 0.5rem;
+}
+
+.highlighted::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(60deg, var(--gemini-purple), var(--google-blue));
+  border-radius: 0.6rem;
+  z-index: -1;
+  animation: gradientBorder 3s linear infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 a {
@@ -12,4 +71,86 @@ a {
 
 .h3 {
   margin-top: 0;
+}
+
+.geminiIcon {
+  -webkit-mask-image: linear-gradient(
+    45deg,
+    #000 25%,
+    rgba(0, 0, 0, 0.2) 50%,
+    #000 75%
+  );
+  mask-image: linear-gradient(
+    45deg,
+    #000 25%,
+    rgba(0, 0, 0, 0.2) 50%,
+    #000 75%
+  );
+  -webkit-mask-size: 800%;
+  mask-size: 800%;
+  -webkit-mask-position: 0;
+  mask-position: 0;
+}
+
+.geminiIcon:hover {
+  cursor: pointer;
+  transition: mask-position 2s ease, -webkit-mask-position 2s ease;
+  -webkit-mask-position: 120%;
+  mask-position: 120%;
+  opacity: 1;
+}
+
+.summarySeparator {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.url:hover {
+  color: var(--gemini-purple);
+}
+
+/* HTML: <div class="loader"></div> */
+
+.loader {
+  width: 0.5rem;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    var(--gemini-purple),
+    var(--google-blue)
+  );
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.summary {
+  margin-bottom: 0.125rem;
+}
+
+.favicon {
+  display: flex;
+  align-items: center;
+}
+
+.favicon img {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0;
+  margin-right: 0.75rem;
+
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }

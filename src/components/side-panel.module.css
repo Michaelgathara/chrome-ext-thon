@@ -1,5 +1,8 @@
 .sidePanel {
   background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .sidePanel h1 {
@@ -10,6 +13,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  max-height: calc(75dvh - 25px);
+  overflow-y: auto;
+
+  border-radius: 5px;
 }
 
 .loaderContainer {
@@ -33,7 +41,7 @@
 .loader {
   width: 120px;
   height: 20px;
-  background: linear-gradient(90deg, #0000, var(--google-yellow)) left -50px top
+  background: linear-gradient(90deg, #0000, var(--gemini-purple)) left -50px top
     0/50px 20px no-repeat var(--google-blue);
   animation: l2 1s infinite linear;
   border-radius: 10px;
@@ -42,4 +50,108 @@
   100% {
     background-position: right -50px top 0;
   }
+}
+
+.recommendedPages {
+  margin-top: 0.125rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.header h1 {
+  margin-top: 0;
+}
+
+.geminiHeader {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.geminiHeader img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.geminiHeader h1 {
+  margin-top: 0;
+}
+
+.summary {
+  height: auto;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-image: linear-gradient(
+    to bottom,
+    var(--google-blue-transparent),
+    var(--gemini-purple-transparent)
+  );
+  margin-top: 1rem;
+  box-shadow: 0 0 4px #ffffff50;
+}
+
+.summary ul {
+  padding-left: 20px;
+  margin-left: 0;
+}
+
+.summary li {
+  margin-bottom: 0.25rem;
+}
+
+.separator {
+  width: 100%;
+}
+
+/* NEWS STUFF */
+.newsBias {
+  background-color: var(--background-color);
+}
+
+.newsBias span {
+  border-radius: 4px;
+  padding: 4px;
+  width: fit-content;
+}
+
+.biasDetails {
+  margin-top: 12px;
+}
+
+.biasIndicator {
+  margin: 8px 0;
+}
+
+.biasBar {
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.left {
+  background: linear-gradient(to right, #3498db, #2980b9);
+}
+.center-left {
+  background: linear-gradient(to right, #2980b9, #95a5a6);
+}
+.center {
+  background: #393f3f;
+}
+.center-right {
+  background: linear-gradient(to right, #95a5a6, #e74c3c);
+}
+.right {
+  background: linear-gradient(to right, #e74c3c, #c0392b);
+}
+
+.reliabilityScore {
+  margin: 8px 0;
+  font-weight: 500;
 }
