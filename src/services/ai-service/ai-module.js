@@ -37,7 +37,7 @@ export async function prompt(prompt, systemPrompt = SEARCH_PROMPT) {
 }
 
 export async function summarize(content, systemPrompt = SUMMARIZE_PROMPT) {
-  content = content.slice(0, 2000);
+  content = content.slice(0, 4098);
   const canSummarize = await ai.summarizer.capabilities();
   let summarizer;
   if (canSummarize && canSummarize.available !== "no") {
