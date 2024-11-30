@@ -63,12 +63,13 @@ async def google_search(query: str):
     results_list: list[GoogleSearchResult] = []
     for res in response:
         res = cast(SearchResult, res)
+        favicon = res.favicon if res.favicon else ""
         results_list.append(
             GoogleSearchResult(
                 url=res.url,
                 title=res.title,
                 description=res.description,
-                favicon=res.favicon,
+                favicon=favicon,
             )
         )
 
