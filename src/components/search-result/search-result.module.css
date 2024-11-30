@@ -6,6 +6,7 @@
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  margin: 0 0.5rem 0 0.5rem;
 }
 
 .searchResult img {
@@ -29,6 +30,7 @@
 
 .description {
   margin-top: 0.125rem;
+  font-size: 0.75rem;
 }
 
 /* TODO: Figure out rounded, animated, and gradient border - all around the search result */
@@ -105,11 +107,13 @@ a {
   margin-top: 0.5rem;
 }
 
+.url {
+  font-size: 0.75rem;
+}
+
 .url:hover {
   color: var(--gemini-purple);
 }
-
-/* HTML: <div class="loader"></div> */
 
 .loader {
   width: 0.5rem;
@@ -136,6 +140,7 @@ a {
 
 .summary {
   margin-bottom: 0.125rem;
+  font-size: 0.75rem;
 }
 
 .favicon {
@@ -153,4 +158,8 @@ a {
   background-color: white;
   padding: 2px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.favicon h3 {
+  font-size: 0.875rem;
 }

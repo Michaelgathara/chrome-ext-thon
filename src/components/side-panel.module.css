@@ -1,5 +1,4 @@
 .sidePanel {
-  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -54,6 +53,7 @@
 
 .recommendedPages {
   margin-top: 0.125rem;
+  font-size: 0.75rem;
 }
 
 .header {
@@ -93,8 +93,8 @@
     var(--google-blue-transparent),
     var(--gemini-purple-transparent)
   );
-  margin-top: 1rem;
   box-shadow: 0 0 4px #ffffff50;
+  margin: 1rem 0.5rem 1rem 0.5rem;
 }
 
 .summary ul {
@@ -104,6 +104,11 @@
 
 .summary li {
   margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.summary p {
+  font-size: 0.75rem;
 }
 
 .separator {
@@ -154,4 +159,9 @@
 .reliabilityScore {
   margin: 8px 0;
   font-weight: 500;
+}
+
+.noRecommendations {
+  font-size: 0.875rem;
+  text-align: center;
 }

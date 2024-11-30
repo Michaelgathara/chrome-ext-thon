@@ -29,8 +29,6 @@
 }
 
 html {
-  background-color: var(--background-color);
-  color: white;
   height: 100%;
 }
 
@@ -52,6 +50,10 @@ body::-webkit-scrollbar {
   height: 1px;
   background-color: lightgray;
   margin: 0.625rem 0;
+}
+
+h1 {
+  font-size: 1.5rem;
 }
 
 h3 {

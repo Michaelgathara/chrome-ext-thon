@@ -6,6 +6,8 @@ import { ScanPopup } from "./scan-popup";
 import ReactMarkdown from "react-markdown";
 import { BIAS_TO_COLOR } from "../services/news-service/data";
 import { runScan } from "./helpers";
+import { useTheme } from "@mui/material/styles";
+
 const SidePanel: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +17,10 @@ const SidePanel: React.FC = () => {
   const [webpagesSummary, setWebpagesSummary] = useState<string>("");
   const [newsBias, setNewsBias] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  const theme = useTheme();
+
+  console.log("Theme is ", theme);
 
   const handleScan = async () => {
     await runScan(
@@ -40,7 +46,13 @@ const SidePanel: React.FC = () => {
 
     return (
       <>
-        <div className={classes.searchResults}>
+        <div
+          className={classes.searchResults}
+          style={{
+            backgroundColor:
+              searchResults.length > 0 ? theme.palette.background.default : "",
+          }}
+        >
           {isLoading ? (
             <div className={classes.loaderContainer}>
               <p>Loading recommendations...</p>
@@ -58,7 +70,9 @@ const SidePanel: React.FC = () => {
               />
             ))
           ) : (
-            <p>No recommendations found.</p>
+            <p className={classes.noRecommendations}>
+              No recommendations found.
+            </p>
           )}
         </div>
         {!isLoading && webpagesSummary && searchResults.length > 0 && (
