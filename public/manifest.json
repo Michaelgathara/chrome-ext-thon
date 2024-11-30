@@ -13,5 +13,8 @@
   "side_panel": {
     "default_path": "sidebar.html"
   },
-  "options_page": "options.html"
+  "options_page": "options.html",
+  "icons": {
+    "64": "logo.png"
+  }
 }
