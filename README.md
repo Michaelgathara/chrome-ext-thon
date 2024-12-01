@@ -94,7 +94,7 @@ Load `dist` directory
 - Click the extension icon to toggle recommendations on/off
 - Click the star to get webpage summaries
 - Click any recommendation to open in a new tab
-- Use the options menu to customize domains and recommendation frequency
+- Use the options menu to customize domains and other settings
 
 
 ## Privacy Policy
