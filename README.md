@@ -21,15 +21,16 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
 - High-quality results powered by Google's latest AI technology
 
 ### Simple & Privacy-Focused
-- Works automatically in the background while you browse
-- Your browsing data stays local to your device
+- No buttons to press, works automatically when you open. 
+- Full control over the domains the extension can access
+
+![options](readme_images/options.png)
 
 ## How to run
 ### Prerequisites
 
 * [node + npm](https://nodejs.org/) 
 * [Docker](https://www.docker.com/)
-* [Python](https://python.org/)
 * [Make](https://www.gnu.org/software/make/)
 
 
