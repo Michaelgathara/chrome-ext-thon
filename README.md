@@ -94,7 +94,7 @@ make build-ext
 
 ### Create .env file for API calls
 
-If hosting the API locally, create an `.env` file in the root directory with the following:
+The API is hosted on Google Cloud Run (and requires no extra setup), but only temporarily for testing purposes. If you want to host it locally, create an `.env` file in the root directory with the following:
 
 ```env
 API_URL=http://localhost:8000

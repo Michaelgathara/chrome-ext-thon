@@ -1,4 +1,5 @@
-import { API_URL } from "../../../libs";
+import { API_URL as BaseApiUrl } from "../../../libs/constants";
+const API_URL = BaseApiUrl as string;
 
 export const summarize = async (url: string) => {
   const requestBody = { url };
