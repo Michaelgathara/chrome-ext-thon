@@ -38,6 +38,8 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
 - Provides transparency about content perspective and leanings
 - Uses AI-powered analysis to evaluate article context and presentation
 
+#### image
+
 
 ## How to run
 ### Prerequisites
