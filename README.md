@@ -59,6 +59,8 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
     - Summarization API for Gemini Nano
     - Writer API for Gemini Nano
     - Rewriter API for Gemini Nano
+- Disable the text safety flags to stop a bug from falsely flagging Gemini Nano content as non-english
+    - Navigate to `chrome://flags/#text-safety-classifier`
 - Navigate to `chrome://components`
     - Ensure you have `Optimization Guide On Device Model` with a version that is not `0`
 
@@ -86,6 +88,14 @@ or
 
 ```
 make build-ext
+```
+
+### Create .env file for API calls
+
+If hosting the API locally, create an `.env` file in the root directory with the following:
+
+```env
+API_URL=http://localhost:8000
 ```
 
 ### Load extension to chrome
