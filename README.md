@@ -90,7 +90,22 @@ make build-ext
 
 Load `dist` directory
 
+## Privacy Policy
+- No personal data is collected or stored
+- Page content is processed locally using Gemini Nano
+- Only approved domains are analyzed (customizable in settings)
+- No browsing history is tracked or shared
+
+
 ## Known Limitations
 - Currently only supports English language content
 - Requires Chrome Canary for Gemini Nano features
 - Beta features may have limited accuracy
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Acknowledgments
+- Built with [Chrome Extension Typescript Starter](https://github.com/chibat/chrome-extension-typescript-starter)
+- Powered by Google's Gemini AI technology
+- Special thanks to the Chrome AI team for early access to Gemini Nano
