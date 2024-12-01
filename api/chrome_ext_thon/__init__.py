@@ -6,6 +6,7 @@ import logging
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 # From api.chrome_ext_thon had some errors. Removing for testing
 from api.chrome_ext_thon.models import Search, Summarize
 from api.chrome_ext_thon.utils import google_search, summarize_page
@@ -34,12 +35,6 @@ app.add_middleware(
 
 @app.post("/api/search")
 async def search(search: Search):
-    LOG.info(f"Searching for {search.query}")
-    """
-        TODO:
-        Send the query to search to generate a json
-        Send the json to frontend
-    """
     search_results = await google_search(search.query)
     return JSONResponse(
         content={"searchResults": [res.model_dump() for res in search_results]}

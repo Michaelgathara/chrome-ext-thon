@@ -10,7 +10,6 @@ export const ScanPopup = ({
   domainList: string[];
 }) => {
   const handleYes = () => {
-    console.log("adding domain to list", currentDomain);
     chrome.storage.sync.set(
       { domainList: [...domainList, currentDomain] },
       () => {

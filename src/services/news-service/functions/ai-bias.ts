@@ -25,6 +25,5 @@ export const getAIBiasRating = async (
     NEWS_BIAS_PROMPT + `\n\nThe domain of the page is ${domain}`
   );
 
-  console.log("Found News Site with bias of: " + response);
   return response;
 };

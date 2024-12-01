@@ -14,7 +14,6 @@ export const checkDomainAndPrompt = async (): Promise<{
     // Get the current tab's URL
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const currentDomain = new URL(tabs[0].url || "").hostname; // Extract the hostname from the URL
-      console.log("Current domain:", currentDomain);
       const currentUrl = tabs[0].url || "";
 
       const isNews = newsService.isNewsSource(currentDomain);
@@ -40,8 +39,6 @@ export const checkDomainAndPrompt = async (): Promise<{
       // Retrieve the whitelist from Chrome's extension storage
       chrome.storage.sync.get("domainList", (result) => {
         const domainList: string[] = result.domainList || [];
-        console.log("Domain list:", domainList);
-
         // Check if the current domain is in the whitelist
         if (domainList.includes(currentDomain)) {
           resolve({

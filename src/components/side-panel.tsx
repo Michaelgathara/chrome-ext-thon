@@ -20,8 +20,6 @@ const SidePanel: React.FC = () => {
 
   const theme = useTheme();
 
-  console.log("Theme is ", theme);
-
   const handleScan = async () => {
     await runScan(
       abortControllerRef,
