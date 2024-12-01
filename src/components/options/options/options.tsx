@@ -79,14 +79,15 @@ export const Options: React.FC = () => {
         <Box sx={{ mt: 2 }}>
           <Typography variant="h6">Domain List</Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
-            {state.domainList.map((domain) => (
-              <Chip
-                key={domain}
-                label={domain}
-                onDelete={() => handleDeleteDomain(domain)}
-                color="primary"
-              />
-            ))}
+            {state.domainList &&
+              state.domainList.map((domain) => (
+                <Chip
+                  key={domain}
+                  label={domain}
+                  onDelete={() => handleDeleteDomain(domain)}
+                  color="primary"
+                />
+              ))}
           </Box>
         </Box>
       )}
