@@ -102,7 +102,6 @@ def search(
         new_results = 0  # Keep track of new results in this iteration
 
         for result in result_block:
-            LOG.info(f"Result: {result}")
             # Find link, title, description
             link = result.find("a", href=True)
             title = result.find("h3")
