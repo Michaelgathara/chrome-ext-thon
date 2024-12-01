@@ -15,6 +15,12 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
 
 ![main_use](readme_images/main_use.png)
 
+### Summary Glance
+- Get a summary of a website before visiting
+- Simple and intuitive by clicking the <i>Star</i> button
+
+##### image
+
 ### Powered by Gemini AI
 - Advanced content analysis for precise recommendations
 - Real-time query generation tailored to your interests
@@ -32,7 +38,22 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
 * [node + npm](https://nodejs.org/) 
 * [Docker](https://www.docker.com/)
 * [Make](https://www.gnu.org/software/make/)
+* [Chrome Canary](https://www.google.com/chrome/canary/)
 
+### Gemini Nano Setup
+- Ensure you have Chrome Canary
+- Sign up for the Gemini Nano Early Preview - [here](goo.gle/chrome-ai-dev-preview-join)
+    - Learn more [here](https://developer.chrome.com/docs/ai/built-in)
+- Navigate to `chrome://flags` 
+- Search for `gemini` and enable all the flags
+    - Prompt API for Gemini Nano
+    - Summarization API for Gemini Nano
+    - Writer API for Gemini Nano
+    - Rewriter API for Gemini Nano
+- Navigate to `chrome://components`
+    - Ensure you have `Optimization Guide On Device Model` with a version that is not `0`
+
+Once you have enabled all of these and been given access to the early preview of Gemini Nano, you should be able to utilize an on-device Gemini model to use the extension
 
 ### Setup
 
