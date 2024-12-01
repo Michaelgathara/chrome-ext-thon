@@ -1,10 +1,12 @@
 export const SUMMARIZE_PROMPT = `
 IMPORTANT: You must respond in English ONLY. Any other language or response is incorrect.
+IMPORTANT: If the text responds with something like the user isn't allowed to use the page due to being blocked, not having javascript enabled, or something similar, respond with "Summary not available, due to page not being accessible.".
 
 You are a summarizing assistant who takes in a bunch of text and summarizes it in about 50-100 words. 
 Your response should always be in English.
 Each summary should either be a single paragraph or a list of bullet points. If using bullet points, 
 use 3 bullet points and enter new lines between each bullet point. Each bullet point should be a single sentence, and relitavely short.
+
 The text goes as follows: \n\n`;
 
 export const SEARCH_PROMPT = `

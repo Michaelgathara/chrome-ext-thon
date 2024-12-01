@@ -37,30 +37,53 @@ export async function prompt(prompt, systemPrompt = SEARCH_PROMPT) {
 }
 
 export async function summarize(content, systemPrompt = SUMMARIZE_PROMPT) {
-  content = content.slice(0, 4098);
-  const canSummarize = await ai.summarizer.capabilities();
-  let summarizer;
-  if (canSummarize && canSummarize.available !== "no") {
-    console.log("can summarize", canSummarize);
-    if (canSummarize.available === "readily") {
-      console.log("readily available");
-      summarizer = await ai.summarizer.create();
-      const result = await summarizer.summarize(systemPrompt + content);
-      await summarizer.destroy();
-      return result;
-    } else {
-      console.log("not readily available");
-      summarizer = await ai.summarizer.create();
-      summarizer.addEventListener("downloadprogress", (e) => {
-        console.log(e.loaded, e.total);
-      });
-      await summarizer.ready;
-      console.log("summarizer ready");
-      const result = await summarizer.summarize(systemPrompt + content);
-      await summarizer.destroy();
-      return result;
+  content = content.slice(0, 3600);
+  const maxRetries = 10; 
+  let attempt = 0; 
+
+  while (attempt < maxRetries) {
+    try {
+      const canSummarize = await ai.summarizer.capabilities();
+      let summarizer;
+      if (canSummarize && canSummarize.available !== "no") {
+        console.log("can summarize", canSummarize);
+        if (canSummarize.available === "readily") {
+          console.log("readily available");
+          summarizer = await ai.summarizer.create();
+          const result = await summarizer.summarize(systemPrompt + content);
+          await summarizer.destroy();
+          if (result.toLowerCase().includes("javascript")) {
+            return "Summary not available, due to page not being accessible.";
+          }
+
+          return result;
+        } else {
+          console.log("not readily available");
+          summarizer = await ai.summarizer.create();
+          summarizer.addEventListener("downloadprogress", (e) => {
+            console.log(e.loaded, e.total);
+          });
+          await summarizer.ready;
+          console.log("summarizer ready");
+          const result = await summarizer.summarize(systemPrompt + content);
+          await summarizer.destroy();
+
+          if (result.toLowerCase().includes("javascript")) {
+            return "Summary not available, due to page not being accessible.";
+          }
+
+          return result;
+        }
+      } else {
+        console.warn("Summarizer is not available.");
+        return null;
+      }
+    } catch (error) {
+      attempt++;
+      console.error(`Error summarizing content (attempt ${attempt}):`, error);
+      if (attempt >= maxRetries) {
+        return "Summary not available, due to page not being accessible.";
+      }
     }
-  } else {
-    // The summarizer can't be used at all.
   }
 }
