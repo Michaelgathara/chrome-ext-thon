@@ -32,6 +32,13 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
 
 ![options](readme_images/options.png)
 
+### Beta: Bias Rating
+- Automatically detect and display potential political or topical bias ratings for news sites as you browse
+- Helps users make informed decisions about their news sources
+- Provides transparency about content perspective and leanings
+- Uses AI-powered analysis to evaluate article context and presentation
+
+
 ## How to run
 ### Prerequisites
 
@@ -82,3 +89,8 @@ make build-ext
 ### Load extension to chrome
 
 Load `dist` directory
+
+## Known Limitations
+- Currently only supports English language content
+- Requires Chrome Canary for Gemini Nano features
+- Beta features may have limited accuracy
