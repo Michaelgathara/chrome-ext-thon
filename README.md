@@ -5,6 +5,8 @@ A Google AI hackathon project by Michael Gathara and Jayden Pyles. Built on top 
 
 As you browse the web, Gemini Recommended Search scans your content and leverages Gemini's advanced capabilities to generate precise Google search queries. Instantly, you're presented with additional webpages tailored to you—allowing you to find content across the web that helps you.
 
+In a time where AI aggregators are becoming a popular alternative to search engines, Gemini Recommended Search is a step towards a more personalized and intelligent web experience, which makes the web work for you.
+
 ## Features
 
 ### Smart Content Discovery and Content Summary
