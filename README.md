@@ -61,6 +61,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
     - Summarization API for Gemini Nano
     - Writer API for Gemini Nano
     - Rewriter API for Gemini Nano
+- Seach for ` Enables optimization guide on device` and set it to `Enable Bypass...`
 - Disable the text safety flags to stop a bug from falsely flagging Gemini Nano content as non-english
     - Navigate to `chrome://flags/#text-safety-classifier`
 - Navigate to `chrome://components`
