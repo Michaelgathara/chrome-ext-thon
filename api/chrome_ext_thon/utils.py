@@ -61,6 +61,7 @@ async def google_search(query: str):
     response = search(query, num_results=5, advanced=True)
 
     results_list: list[GoogleSearchResult] = []
+
     for res in response:
         res = cast(SearchResult, res)
         favicon = res.favicon if res.favicon else ""

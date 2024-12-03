@@ -82,10 +82,14 @@ def search(
 
     start = 0
     fetched_results = 0  # Keep track of the total fetched results
+    loop_count = 1
 
     LOG.info(f"Starting search for {term}")
 
     while fetched_results < num_results:
+        LOG.info(f"Loop count: {loop_count}")
+        loop_count += 1
+
         # Send request
         resp = _req(
             term,
@@ -103,6 +107,8 @@ def search(
         soup = BeautifulSoup(resp.text, "html.parser")
         result_block = soup.find_all("div", attrs={"class": "g"})
         new_results = 0  # Keep track of new results in this iteration
+
+        LOG.info(f"Found {len(result_block)} results")
 
         for result in result_block:
             # Find link, title, description
