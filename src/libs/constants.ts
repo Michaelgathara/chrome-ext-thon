@@ -4,8 +4,7 @@ let API_URL: string;
 if (typeof process !== "undefined" && process.env.API_URL) {
   API_URL = `${process.env.API_URL}/api`;
 } else {
-  API_URL =
-    "https://gemini-rec-search-api-614660838123.us-central1.run.app/api";
+  API_URL = "https://gemini-rec-search-api-614660838123.us-east1.run.app/api";
 }
 
 export { API_URL };

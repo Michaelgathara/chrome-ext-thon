@@ -2,6 +2,9 @@ import random
 from requests import get
 from bs4 import BeautifulSoup
 from time import sleep
+import logging
+
+LOG = logging.getLogger(__name__)
 
 
 def get_useragent():
@@ -91,9 +94,12 @@ def search(
         # Parse
         soup = BeautifulSoup(resp.text, "html.parser")
         result_block = soup.find_all("div", attrs={"class": "g"})
+        LOG.info(f"Found {len(result_block)} results")
+
         if not result_block:
-            print("No result found")
+            LOG.info("No result found")
             break
+
         for result in result_block:
             # Find link, title, description
             link = result.find("a", href=True)
@@ -113,4 +119,5 @@ def search(
                         yield link["href"]
             else:
                 start += 1
+
         sleep(sleep_interval)
