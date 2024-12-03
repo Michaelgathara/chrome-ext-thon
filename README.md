@@ -28,7 +28,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Simple and intuitive by clicking the <i>Star</i> button
 
 <p align="center">
-    <img src="readme_images/summary_glance.png"/>
+    <img src="readme_images/summary_glance.png" width="400px"/>
 </p>
 
 ### Powered by Gemini AI
@@ -51,7 +51,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Uses AI-powered analysis to evaluate article context and presentation
 
 <p align="center">
-    <img src="readme_images/source_bias.png"/>
+    <img src="readme_images/source_bias.png" width="400px"/>
 </p>
 
 ## How to run
