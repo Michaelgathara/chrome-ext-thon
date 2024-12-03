@@ -105,6 +105,9 @@ def search(
 
         # Parse
         soup = BeautifulSoup(resp.text, "html.parser")
+
+        LOG.info(f"Page text: {soup.text}")
+
         result_block = soup.find_all("div", attrs={"class": "g"})
         new_results = 0  # Keep track of new results in this iteration
 
