@@ -5,11 +5,12 @@ const dotenv = require('dotenv');
 
 const env = dotenv.config().parsed || {};
 const envKeys = Object.keys(env).reduce((acc, key) => {
-  acc[`process.env.${key}`] = JSON.stringify(env[key]);
+  acc[key] = env[key];
   return acc;
 }, {});
 
 
+console.log("envKeys", envKeys);
 module.exports = {
   entry: {
     index: './src/index.tsx',
@@ -56,6 +57,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [{ from: 'public', to: '.' }]
     }),
-    new webpack.DefinePlugin(envKeys)
+    new webpack.DefinePlugin({
+      process: JSON.stringify({ env: envKeys })
+    })
   ]
 };
