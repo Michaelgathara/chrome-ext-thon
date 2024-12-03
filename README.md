@@ -135,6 +135,9 @@ API_URL=http://localhost:8000
     ```
     - This loads up the models needed
 
+- If no recommendations are found and the earlier tip does not work. Try to use a local docker enabled backend for the backend
+    - In the .env file you created earlier, uncomment the endpoint and `make up` and `make build-ext` again
+
 ## Usage Tips
 - Click the extension icon to toggle recommendations on/off
 - Click the star to get webpage summaries
