@@ -8,7 +8,6 @@ authors = [
 dependencies = [
     "fastapi>=0.115.4",
     "uvicorn>=0.32.0",
-    "google-generativeai>=0.8.3",
     "googlesearch-python>=1.2.5",
     "python-dotenv>=1.0.1",
     "pydantic>=2.9.2",

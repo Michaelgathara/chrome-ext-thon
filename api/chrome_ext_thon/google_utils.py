@@ -1,3 +1,4 @@
+import time
 import requests
 from bs4 import BeautifulSoup
 from typing import Optional
@@ -64,7 +65,7 @@ def search(
     lang="en",
     proxy=None,
     advanced=False,
-    sleep_interval=0,
+    sleep_interval=1,
     timeout=5,
     safe="active",
     ssl_verify=None,
@@ -81,6 +82,8 @@ def search(
 
     start = 0
     fetched_results = 0  # Keep track of the total fetched results
+
+    LOG.info(f"Starting search for {term}")
 
     while fetched_results < num_results:
         # Send request
@@ -117,6 +120,11 @@ def search(
                     yield SearchResult(link["href"], title.text, description, favicon)
                 else:
                     yield link["href"]
+
+                time.sleep(sleep_interval)
+
+            if new_results == 0:
+                break
 
             if fetched_results >= num_results:
                 break  # Stop if we have fetched the desired number of results
