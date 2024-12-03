@@ -1,6 +1,6 @@
 services:
   chrome_ext_thon:
-    image: jpyles0524/gemini-rec-search-api:042bd339f3afb70e7cc39e1e9910a81a215db2f4
+    image: jpyles0524/gemini-rec-search-api:99493dd4fd535e3674e70fae0cdc8a053c69a381
     env_file: .env
     volumes:
       - "$PWD/api:/project/api"
