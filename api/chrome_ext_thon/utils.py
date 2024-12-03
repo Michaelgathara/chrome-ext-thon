@@ -58,7 +58,7 @@ async def google_search(query: str):
     https://pypi.org/project/googlesearch-python/
     """
     LOG.info(f"Searching for {query}")
-    response = search(query, num_results=10, advanced=True)
+    response = search(query, num_results=5, advanced=True)
 
     results_list: list[GoogleSearchResult] = []
     for res in response:
