@@ -73,6 +73,9 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 Once you have enabled all of these and been given access to the early preview of Gemini Nano, you should be able to utilize an on-device Gemini model to use the extension
 
 ### Setup
+- Copy the `.env.example` file and rename it to `.env`
+    - You may fill out the env file if you'd like to use a local endpoint for testing, otherwise the extension will use our Google Cloud endpoint for Google Searches and your local on-device Gemini Nano model for AI capabilities
+
 
 - Frontend
 ```
@@ -85,6 +88,9 @@ make pull up
 ```
 
 ### Build frontend assets
+
+> [!TIP]
+> Rebuild the frontend everytime you make changes to the frontend or add a .env file
 
 ```
 npm run build
