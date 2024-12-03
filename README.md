@@ -7,6 +7,10 @@ As you browse the web, Gemini Recommended Search scans your content and leverage
 
 In a time where AI aggregators are becoming a popular alternative to search engines, Gemini Recommended Search is a step towards a more personalized and intelligent web experience, which makes the web work for you.
 
+## Demo
+[![Video Demo](https://img.youtube.com/vi/g-iT-Xf_zSE/0.jpg)](https://www.youtube.com/watch?v=g-iT-Xf_zSE)
+
+
 ## Features
 
 ### Smart Content Discovery and Content Summary
@@ -21,7 +25,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Get a summary of a website before visiting
 - Simple and intuitive by clicking the <i>Star</i> button
 
-##### image
+![summary_glance](readme_images/summary_glance.png)
 
 ### Powered by Gemini AI
 - Advanced content analysis for precise recommendations
@@ -40,8 +44,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Provides transparency about content perspective and leanings
 - Uses AI-powered analysis to evaluate article context and presentation
 
-#### image
-
+![source_bias](readme_images/source_bias.png)
 
 ## How to run
 ### Prerequisites
@@ -78,7 +81,7 @@ npm install
 
 - Backend
 ```
-make build up
+make pull up
 ```
 
 ### Build frontend assets
@@ -101,9 +104,21 @@ The API is hosted on Google Cloud Run (and requires no extra setup), but only te
 API_URL=http://localhost:8000
 ```
 
+> [!IMPORTANT]
+> This API is used for Google Search, All Gemini calls are utilizing Gemini Nano
+
 ### Load extension to chrome
 
 Load `dist` directory
+
+## Troubleshooting Tips
+- If the extension does not showcase any recommendations, there is a chance that Gemini Nano is not loading properly. 
+    - Copy the following into your chrome canary console
+    ```
+    await ai.summarizer.create();
+    await ai.languageModel.create();
+    ```
+    - This loads up the models needed
 
 ## Usage Tips
 - Click the extension icon to toggle recommendations on/off
@@ -111,13 +126,11 @@ Load `dist` directory
 - Click any recommendation to open in a new tab
 - Use the options menu to customize domains and other settings
 
-
 ## Privacy Policy
 - No personal data is collected or stored
 - Page content is processed locally using Gemini Nano
 - Only approved domains are analyzed (customizable in settings)
 - No browsing history is tracked or shared
-
 
 ## Known Limitations
 - Currently only supports English language content
