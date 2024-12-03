@@ -1,51 +1,39 @@
-import time
-import requests
+import random
+from requests import get
 from bs4 import BeautifulSoup
-from typing import Optional
-from urllib.parse import quote_plus
-import logging
-import fake_useragent
-
-LOG = logging.getLogger(__name__)
+from time import sleep
 
 
-def _req(
-    term: str,
-    results_per_page: int,
-    lang: str,
-    start: int,
-    proxies: Optional[dict],
-    timeout: int,
-    safe: str,
-    ssl_verify: Optional[bool],
-    region: Optional[str],
-) -> requests.Response:
-    headers = {"User-Agent": fake_useragent.UserAgent().random}
+def get_useragent():
+    return random.choice(_useragent_list)
 
-    params = {
-        "q": term,
-        "num": results_per_page,
-        "hl": lang,
-        "start": start,
-        "safe": safe,
-    }
 
-    if region:
-        params["gl"] = region
+_useragent_list = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.62",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0",
+]
 
-    url = f"https://www.google.com/search?" + "&".join(
-        f"{k}={quote_plus(str(v))}" for k, v in params.items()
-    )
 
-    LOG.info(f"Searching for {term} at {url}")
-
-    return requests.get(
-        url,
-        headers=headers,
+def _req(term, results, lang, start, proxies, timeout):
+    resp = get(
+        url="https://www.google.com/search",
+        headers={"User-Agent": get_useragent()},
+        params={
+            "q": term,
+            "num": results + 2,  # Prevents multiple requests
+            "hl": lang,
+            "start": start,
+        },
         proxies=proxies,
         timeout=timeout,
-        verify=ssl_verify if ssl_verify is not None else True,
     )
+    resp.raise_for_status()
+    return resp
 
 
 class SearchResult:
@@ -65,54 +53,47 @@ def search(
     lang="en",
     proxy=None,
     advanced=False,
-    sleep_interval=1,
+    sleep_interval=0,
     timeout=5,
-    safe="active",
-    ssl_verify=None,
-    region=None,
 ):
-    """Search the Google search engine"""
+    """
+    Search the Google search engine.
 
-    # Proxy setup
-    proxies = (
-        {"https": proxy, "http": proxy}
-        if proxy and (proxy.startswith("https") or proxy.startswith("http"))
-        else None
-    )
+    Args:
+        term (str): The search term.
+        num_results (int, optional): The number of search results to retrieve. Defaults to 10.
+        lang (str, optional): The language of the search results. Defaults to "en".
+        proxy (str, optional): The proxy server to use for the search. Defaults to None.
+        advanced (bool, optional): Whether to return advanced search results. Defaults to False.
+        sleep_interval (int, optional): The interval between each search request in seconds. Defaults to 0.
+        timeout (int, optional): The timeout for each search request in seconds. Defaults to 5.
 
+    Yields:
+        str or SearchResult: The search results. If advanced is True, yields SearchResult objects containing the link, title, and description. Otherwise, yields only the link.
+
+    """
+    escaped_term = term.replace(" ", "+")
+
+    # Proxy
+    proxies = None
+    if proxy:
+        if proxy.startswith("https"):
+            proxies = {"https": proxy}
+        else:
+            proxies = {"http": proxy}
+
+    # Fetch
     start = 0
-    fetched_results = 0  # Keep track of the total fetched results
-    loop_count = 1
-
-    LOG.info(f"Starting search for {term}")
-
-    while fetched_results < num_results:
-        LOG.info(f"Loop count: {loop_count}")
-        loop_count += 1
-
+    while start < num_results:
         # Send request
-        resp = _req(
-            term,
-            num_results - start,
-            lang,
-            start,
-            proxies,
-            timeout,
-            safe,
-            ssl_verify,
-            region,
-        )
+        resp = _req(escaped_term, num_results - start, lang, start, proxies, timeout)
 
         # Parse
         soup = BeautifulSoup(resp.text, "html.parser")
-
-        LOG.info(f"Page text: {soup.text}")
-
         result_block = soup.find_all("div", attrs={"class": "g"})
-        new_results = 0  # Keep track of new results in this iteration
-
-        LOG.info(f"Found {len(result_block)} results")
-
+        if not result_block:
+            print("No result found")
+            break
         for result in result_block:
             # Find link, title, description
             link = result.find("a", href=True)
@@ -120,20 +101,16 @@ def search(
             description_box = result.find("div", {"style": "-webkit-line-clamp:2"})
             favicon_tag = result.find("img")
             favicon = favicon_tag["src"] if favicon_tag else None
-
-            if link and title and description_box:
+            if description_box:
                 description = description_box.text
-                fetched_results += 1
-                new_results += 1
-                if advanced:
-                    yield SearchResult(link["href"], title.text, description, favicon)
-                else:
-                    yield link["href"]
-
-                time.sleep(sleep_interval)
-
-            if new_results == 0:
-                break
-
-            if fetched_results >= num_results:
-                break  # Stop if we have fetched the desired number of results
+                if link and title and description:
+                    start += 1
+                    if advanced:
+                        yield SearchResult(
+                            link["href"], title.text, description, favicon
+                        )
+                    else:
+                        yield link["href"]
+            else:
+                start += 1
+        sleep(sleep_interval)
