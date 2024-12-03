@@ -19,7 +19,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Save time finding related resources across the web
 - Get content summaries to enhance understanding
 
-<p style="text-align: center">
+<p align="center">
     <img src="readme_images/main_use.png"/>
 </p>
 
@@ -27,7 +27,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Get a summary of a website before visiting
 - Simple and intuitive by clicking the <i>Star</i> button
 
-<p style="text-align: center">
+<p align="center">
     <img src="readme_images/summary_glance.png"/>
 </p>
 
@@ -40,7 +40,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - No buttons to press, works automatically when you open. 
 - Full control over the domains the extension can access
 
-<p style="text-align: center">
+<p align="center">
     <img src="readme_images/options.png"/>
 </p>
 
@@ -50,7 +50,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Provides transparency about content perspective and leanings
 - Uses AI-powered analysis to evaluate article context and presentation
 
-<p style="text-align: center">
+<p align="center">
     <img src="readme_images/source_bias.png"/>
 </p>
 
