@@ -53,7 +53,7 @@ def search(
     lang="en",
     proxy=None,
     advanced=False,
-    sleep_interval=0,
+    sleep_interval=0.25,
     timeout=5,
 ):
     """
