@@ -19,13 +19,17 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Save time finding related resources across the web
 - Get content summaries to enhance understanding
 
-![main_use](readme_images/main_use.png)
+<p style="text-align: center">
+    <img src="readme_images/main_use.png"/>
+</p>
 
 ### Summary Glance
 - Get a summary of a website before visiting
 - Simple and intuitive by clicking the <i>Star</i> button
 
-![summary_glance](readme_images/summary_glance.png)
+<p style="text-align: center">
+    <img src="readme_images/summary_glance.png"/>
+</p>
 
 ### Powered by Gemini AI
 - Advanced content analysis for precise recommendations
@@ -36,7 +40,9 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - No buttons to press, works automatically when you open. 
 - Full control over the domains the extension can access
 
-![options](readme_images/options.png)
+<p style="text-align: center">
+    <img src="readme_images/options.png"/>
+</p>
 
 ### Beta: Bias Rating
 - Automatically detect and display potential political or topical bias ratings for news sites as you browse
@@ -44,7 +50,9 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - Provides transparency about content perspective and leanings
 - Uses AI-powered analysis to evaluate article context and presentation
 
-![source_bias](readme_images/source_bias.png)
+<p style="text-align: center">
+    <img src="readme_images/source_bias.png"/>
+</p>
 
 ## How to run
 ### Prerequisites
@@ -114,8 +122,9 @@ API_URL=http://localhost:8000
 > This API is used for Google Search, All Gemini calls are utilizing Gemini Nano
 
 ### Load extension to chrome
-
-Load `dist` directory
+- Navigate to `chrome://extensions` and enable developer mode
+- Load `dist` directory
+- Reload the extension on `chrome://extensions` whenever you rebuild the frontend
 
 ## Troubleshooting Tips
 - If the extension does not showcase any recommendations, there is a chance that Gemini Nano is not loading properly. 
