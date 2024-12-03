@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from typing import Optional
 from urllib.parse import quote_plus
 import logging
+import fake_useragent
 
 LOG = logging.getLogger(__name__)
 
@@ -18,10 +19,7 @@ def _req(
     ssl_verify: Optional[bool],
     region: Optional[str],
 ) -> requests.Response:
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
+    headers = {"User-Agent": fake_useragent.UserAgent().random}
 
     params = {
         "q": term,
@@ -37,6 +35,8 @@ def _req(
     url = f"https://www.google.com/search?" + "&".join(
         f"{k}={quote_plus(str(v))}" for k, v in params.items()
     )
+
+    LOG.info(f"Searching for {term} at {url}")
 
     return requests.get(
         url,

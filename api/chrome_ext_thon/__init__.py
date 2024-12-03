@@ -33,6 +33,11 @@ app.add_middleware(
 )
 
 
+@app.get("/api/health")
+async def health():
+    return JSONResponse(content={"status": "ok"})
+
+
 @app.post("/api/search")
 async def search(search: Search):
     search_results = await google_search(search.query)
