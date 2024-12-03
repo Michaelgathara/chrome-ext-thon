@@ -107,17 +107,21 @@ def search(
             description_box = result.find("div", {"style": "-webkit-line-clamp:2"})
             favicon_tag = result.find("img")
             favicon = favicon_tag["src"] if favicon_tag else None
+
             if description_box:
+                LOG.info(f"Found description: {description_box.text}")
+
                 description = description_box.text
                 if link and title and description:
-                    start += 1
                     if advanced:
                         yield SearchResult(
                             link["href"], title.text, description, favicon
                         )
                     else:
                         yield link["href"]
+
+                    start += 1
             else:
-                start += 1
+                LOG.info("No description found")
 
         sleep(sleep_interval)
