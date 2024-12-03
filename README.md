@@ -90,7 +90,7 @@ make pull up
 ### Build frontend assets
 
 > [!TIP]
-> Rebuild the frontend everytime you make changes to the frontend or add a .env file
+> Rebuild the frontend everytime you make changes to the frontend or add a .env file and reload the extension on Chrome
 
 ```
 npm run build
