@@ -37,7 +37,7 @@ In a time where AI aggregators are becoming a popular alternative to search engi
 - High-quality results powered by Google's latest AI technology
 
 ### Simple & Privacy-Focused
-- No buttons to press, works automatically when you open. 
+- No buttons to press, works automatically when you open 
 - Full control over the domains the extension can access
 
 <p align="center">
